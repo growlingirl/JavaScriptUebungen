@@ -23,7 +23,6 @@
         background-color: white;
         font-size: 16px;
         
-        
     }
 
     #plus, #minus, #mal, #durch {
@@ -39,7 +38,7 @@
         font-size: 16px;
     }
 
-    #Ausgabe {
+    #Ausgaben, #Resultat {
         background-color: light-grey;
         font-weight: bold;
     }
@@ -58,21 +57,21 @@
         <div class="dropdown">
             <button class="dropbtn">Wähle einen Operand </button> 
             <div class="dropdown-content">
-                <button id="plus" onclick='plus()'>&#10133</button>
-                <button id="minus" onclick="minus()">&#10134</button>
-                <button id="mal" onclick='mal()'>&#10060</button>
-                <button id="durch" onclick="durch()">&#10135</button>
+                <button id="plus" onclick=operand(+) >&#10133</button>
+                <button id="minus" onclick=operand(-) >&#10134</button>
+                <button id="mal" onclick=operand(*) >&#10060</button>
+                <button id="durch" onclick=operand(/) >&#10135</button>
                 
             </div>
 
           </div>  
     </form>
     <br> <br> <br>
-    <p>Deine Eingaben:</p>
-    <p id="Ausgabe">
 
-    </p>
-    <div id = 'Resultat'></div>
+    <p>Deine Eingaben:</p>
+    <p id="Ausgaben">    </p>
+    <p>Das Resultat der Berechnung:</p>
+    <p id = 'Resultat'></p>
 
 
 <script>
@@ -85,19 +84,30 @@ input.addEventListener('keypress', function(event) {
     }
 })
 
-let X = document.getElementById('pw').value;
-let A = '';
 
+let A = '';
+let R;
 
 
 function zahlen() {
- A = document.getElementById('Ausgaben').textContent;
+   let X = document.getElementById('pw').value; 
+ A = document.getElementById('Ausgaben').innerText;
  A = A + X;
 
-    document.getElementById('Ausgaben').innerHTML = A;
+    document.getElementById('Ausgaben').innerText = A;
+    document.getElementById('pw').innerText = '0';
+    //Resultat
+    R=eval(A);
+    if (R =! A) {
+        document.getElementById('Resultat').innerHTML = R;
+    }
 
-document.getElementById('Resultat').innerHTML = eval(A);
+}
 
+function operand(i) {
+    A = document.getElementById('Ausgaben').innerText;
+    A = A + i;
+    document.getElementById('Ausgaben').innerText = A;
 }
 
 </script>
