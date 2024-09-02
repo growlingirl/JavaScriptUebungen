@@ -57,10 +57,10 @@
         <div class="dropdown">
             <button class="dropbtn">Wähle einen Operand </button> 
             <div class="dropdown-content">
-                <button id="plus" onclick='operand(+)' >&#10133</button>
-                <button id="minus" onclick='operand(-)' >&#10134</button>
-                <button id="mal" onclick='operand(*)' >&#10060</button>
-                <button id="durch" onclick='operand(/)' >&#10135</button>
+                <button id="plus" onclick='operand("+")' >&#10133</button>
+                <button id="minus" onclick='operand("-")' >&#10134</button>
+                <button id="mal" onclick='operand("*")' >&#10060</button>
+                <button id="durch" onclick='operand("/")' >&#10135</button>
                 
             </div>
 
@@ -95,7 +95,7 @@ function zahlen() {
  A = A + X;
 
     document.getElementById('Ausgaben').innerText = A;
-    document.getElementById('pw').innerText = '0';
+    document.getElementById('pw').value = '';
     //Resultat
     R=eval(A);
     if (R =! A) {
@@ -104,9 +104,9 @@ function zahlen() {
 
 }
 
-function operand('i') {
+function operand(i) {
     A = document.getElementById('Ausgaben').innerText;
-    A = A + i;
+    A = 'A' + 'i';
     document.getElementById('Ausgaben').innerText = A;
 }
 
