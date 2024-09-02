@@ -3,16 +3,104 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>schachbrett</title>
+  <title>Taschenrechner</title>
   <style>
- 
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+     .dropdown-content {
+        
+        position: absolute;
+        
+        z-index: 1;
+        border: none;
+    }
+
+        .dropbtn {
+        border: none;
+        background-color: white;
+        font-size: 16px;
+        
+        
+    }
+
+    #plus, #minus, #mal, #durch {
+        padding: 11px;
+    }
+
+    #eingabe {
+        font-size: 16px;
+        
+    }
+
+    #but {
+        font-size: 16px;
+    }
+
+    #Ausgabe {
+        background-color: light-grey;
+        font-weight: bold;
+    }
     
   </style>
 </head>
 <body>
 
-
+    <form>
+        <p>Gib eine Zahl ein</p> 
     
+        <input type="number" id="pw" name="pw" min="1" max="indefinite"> <br> <br>
+    
+        <input type="button" onclick=zahlen() value="Eingabe" id="but">
+        <br><br>
+        <div class="dropdown">
+            <button class="dropbtn">Wähle einen Operand </button> 
+            <div class="dropdown-content">
+                <button id="plus" onclick='plus()'>&#10133</button>
+                <button id="minus" onclick="minus()">&#10134</button>
+                <button id="mal" onclick='mal()'>&#10060</button>
+                <button id="durch" onclick="durch()">&#10135</button>
+                
+            </div>
+
+          </div>  
+    </form>
+    <br> <br> <br>
+    <p>Deine Eingaben:</p>
+    <p id="Ausgabe">
+
+    </p>
+    <div id = 'Resultat'></div>
+
+
+<script>
+    //Enter as a button click
+var input = document.getElementById('pw')
+input.addEventListener('keypress', function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        document.getElementById('but').click()
+    }
+})
+
+let X = document.getElementById('pw').value;
+let A = '';
+
+
+
+function zahlen() {
+ A = document.getElementById('Ausgaben').textContent;
+ A = A + X;
+
+    document.getElementById('Ausgaben').innerHTML = A;
+
+document.getElementById('Resultat').innerHTML = eval(A);
+
+}
+
+</script>
 
     
 </body>
