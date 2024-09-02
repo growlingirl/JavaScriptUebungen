@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quartett</title> 
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <h2>Quartett</h2>
+
+    <p>Das Spiel hat die 6 Karten gemischt und jedem Spieler einen Stapel an 3 Karten zugeteilt.
+        Die oberste Karte von Spieler 1 wurde bereits aufgedeckt.<br> <br>
+        Nun muss Spieler 1 einen Wert auswählen, von dem er denkt, 
+        dass er den Wert auf der Karte von Spieler 2 übertreffen wird.
+    </p>
+    <p style="font-size: 20; color: red; font-weight: bold;" id="win"></p>
+    <div id="buttonContainer">
+    <button type="button" class="button" id="but1" onclick="legen2()">Spieler 1 hat gewählt</button>
+    <button type="button" class="button" id="but2" onclick="legen1()">Player 2 gewinnt diese runde</button>
+    
+    </div><br><br>
+    <div class="flex-container">
+        <div class="leer">
+    
+        </div>
+    
+        <div>
+            <h4>Spieler 1</h4>
+            <div class="card" id="card1">
+    
+            </div>
+        </div>
+        <div class="leer">
+    
+    
+    
+        </div>
+        <div>
+            <h4>Spieler 2</h4>
+            <div class="card" id="card2">
+            
+    
+            </div>
+        </div>
+        <div class="leer">
+    
+        </div>
+    
+    </div>
+    
+    
+    <script>
+
+//Quartett Karten
+class Tier {
+    constructor(Bild, Beschr, Leben, Rep, Gewicht, Grösse, Kurios) {
+        this.Bild = Bild;
+        this.Beschreibung = Beschr;
+        this.Lebenserwartung = Leben;
+        this.Reproduktion = Rep;
+        this.Gewicht = Gewicht;
+        this.Grösse = Grösse;
+        this.Kuriosität = Kurios;
+    }
+}
+
+const Tier1 = new Tier(
+    img("bilder/Quartett/img1.PNG","Blobfisch"),
+    "Der Blobfisch bewegt sich zumeist auf dem Meeresgrund in Tiefen bis zu 2800m und ernährt sich dort von Krebsen und Weichtieren. Durch verstärkte Tiefseefischerei wird sein trauriger, fast menschlicher Gesichtsausdruck berechtigt - der Blobfisch ist vom Aussterben bedroht.",
+    "<span class='bold'>Lebenserwartung:</span>6 - 8 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>800 / Jahr",
+    "<span class='bold'>Gewicht:</span>8 - 10 kg",
+    "<span class='bold'>Grösse:</span>30 cm",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733 &#9733 &#9733"
+);
+
+const Tier2 = new Tier(
+    img("bilder/Quartett/img2.PNG","Perlhuhn Kugelfisch"),
+    "Der Kugelfisch lebt im Korallenmeer und hat eine rundliche Form mit schnabelähnlichem Mund. Bei Gefahr pumpt er sich mit Wasser auf. Dies sieht nicht nur witzig aus, sondern soll eigentlich Angreifer abschrecken. Der Kugelfisch ist zudem sehr giftig.",
+    "<span class='bold'>Lebenserwartung:</span>8 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>3 - 5 / Jahr",
+    "<span class='bold'>Gewicht:</span>3 kg",
+    "<span class='bold'>Grösse:</span>50 cm",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733 &#9733"
+);
+
+
+  
+const Tier3 = new Tier(
+    img("bilder/Quartett/img3.PNG","Walhai"),
+    "Der Walhai ist der grösste Fisch der Erde und ernährt sich hauptsächlich von Plankton und anderen Kleinstlebewesen, die er aus dem Wasser filtert. Auf Grund dieser Nahrungsspezialisierung ist der Walhai für Menschen ungefährlich.",
+    "<span class='bold'>Lebenserwartung:</span>100 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>300 / Jahr",
+    "<span class='bold'>Gewicht:</span>12'000 kg",
+    "<span class='bold'>Grösse:</span>12 m",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733"
+);
+
+const Tier4 = new Tier(
+    img("bilder/Quartett/img4.PNG","Purpur-Nasenfrosch"),
+    "Dieser spezielle Nasenfrosch erinnert mit seinem purpurvioletten, mächtigen Körper eher an eine Kröte und mit seiner Stubsnase eher an einen Maulwurf. Er wurde trotz seiner Grösse erst im Jahre 2003 entdeckt, vielleicht auch, weil er sich gerne ins lockere Erdreich eingräbt.",
+    "<span class='bold'>Lebenserwartung:</span>25 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>200 / Jahr",
+    "<span class='bold'>Gewicht:</span>0.3 kg",
+    "<span class='bold'>Grösse:</span>6 - 9 cm",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733 &#9733 &#9733"
+);
+
+const Tier5 = new Tier(
+    img("bilder/Quartett/img5.PNG","Elefantenrüssel"),
+    "Diese Muschel ist nicht nur ungewöhnlich gross, sondern gehört auch zu den am längsten lebenden Tieren überhaupt. In China ist die Muschel nicht nur wegen ihres Geschmacks geschätzt, es wird ihr auch eine potenzsteigernde Wirkung nachgesagt.",
+    "<span class='bold'>Lebenserwartung:</span>160 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>30 Mio. / Jahr",
+    "<span class='bold'>Gewicht:</span>1.5 kg",
+    "<span class='bold'>Grösse:</span>100 cm",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733 &#9733"
+);
+
+const Tier6 = new Tier(
+    img("bilder/Quartett/img6.PNG","Nacktmull"),
+    "Der Nacktmull ist ein Sandgräber und lebt in unterirdischen Kolonien. Ähnlich wie bei Bienenstöcken wird eine Kolonie jeweils von einem Weibchen (der Königin) geleitet. Nackmulle sind unbehaart, blind und können keinen Schmerz empfinden.",
+    "<span class='bold'>Lebenserwartung:</span>25 Jahre",
+    "<span class='bold'>Fortpflanzung:</span>50 / Jahr",
+    "<span class='bold'>Gewicht:</span>50 g",
+    "<span class='bold'>Grösse:</span>12 cm",
+    "<span class='bold'>Kuriosität:</span>&#9733 &#9733 &#9733 &#9733 &#9733"
+);
+
+function img(source, alt) {
+    var x = document.createElement("IMG");
+    x.setAttribute("src", source);
+    x.setAttribute("width", "290");
+    x.setAttribute("height", "auto");
+    x.setAttribute("alt", alt);
+    return x;
+  };
+
+
+//array
+const Tiere = [Tier1, Tier2, Tier3, Tier4, Tier5, Tier6];
+
+//Karten Mischen
+function Mischen() {
+    for (let i = Tiere.length -1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i+1));
+        let k = Tiere[i];
+        Tiere[i] = Tiere[j];
+        Tiere[j] = k;
+    }
+}
+
+Mischen();
+
+//2 Kartenstapel machen
+const Player1 = Tiere.slice(0,3);
+const Player2 = Tiere.slice(3);
+
+var si=1;
+
+
+//Zeige erste Karte von Spieler 1
+// Build a Text
+let text1 = "";
+
+text1 += Player1[0].Bild.outerHTML + "<br>"; 
+
+const keys = Object.keys(Player1[0]);
+
+for (let x=1; x<7; x++) {
+    text1 += Player1[0][keys[x]] + "<br>";
+}
+
+//zweite Variante mit weglassen des Bildes
+/*for (let x in Tier3) {
+    if (x !== "Bild") {
+        text3 += Tier3[x] + "<br>";
+    }
+}*/
+
+// Display the Text
+document.getElementById("card1").innerHTML = text1;
+
+//Player two
+function legen2() {
+    let text2 ="";
+    
+    text2 += Player2[0].Bild.outerHTML + "<br>"; 
+
+    const keys = Object.keys(Player2[0]);  
+    
+    for (let x=1; x<7; x++) {
+    text2 += Player2[0][keys[x]] + "<br>";}
+
+    document.getElementById("card2").innerHTML = text2;
+    document.getElementById("but1").innerHTML = "Player 1 gewinnt diese Runde";
+
+    // Create a new button element
+
+  var gewinn2 = document.createElement("button");
+  gewinn2.innerHTML = "Player 2 gewinnt diese Runde";
+  
+  gewinn2.setAttribute("class", "button");
+  gewinn2.setAttribute("float", "left");
+  gewinn2.setAttribute("id", "but2");
+
+// Append the new button to the button container
+   document.getElementById("buttonContainer").appendChild(gewinn2);
+
+  // Add an onclick event to the new button
+  gewinn2.onclick = function Gewinn2() {
+    Player1.shift();
+    Player2.shift();
+    Player2.concat(Player1.shift()+Player2.shift());
+
+    let text2 ="";
+    
+    text2 += Player2[0].Bild.outerHTML + "<br>"; 
+
+    const keys = Object.keys(Player2[0]);  
+    
+    for (let x=1; x<7; x++) {
+    text2 += Player2[0][keys[x]] + "<br>";}
+
+    document.getElementById("card1").innerHTML = "";
+    document.getElementById("card2").innerHTML = text2;
+    document.getElementById("but1").innerHTML = "Spieler 2 hat gewählt";
+    gewinn2.style.visibility = "hidden";
+
+  };
+}
+
+
+
+
+//Quartett Loop
+var gewinn1 = document.getElementById("but1");
+
+if (Spieler1.length>0 && Spieler2.lenght>0) {
+    if (i==1) {
+        
+    //Spieler 1 legt zuerst
+        //Zeige erste Karte von Spieler 1
+        // Build a Text
+        let text1 = "";
+
+        text1 += Player1[0].Bild.outerHTML + "<br>"; 
+
+        const keys = Object.keys(Player1[0]);
+
+        for (let x=1; x<7; x++) {
+        text1 += Player1[0][keys[x]] + "<br>";
+        }
+
+        //zweite Variante mit weglassen des Bildes
+        /*for (let x in Tier3) {
+         if (x !== "Bild") {
+        text3 += Tier3[x] + "<br>";
+        }}*/
+
+        // Display the Text
+        document.getElementById("card1").innerHTML = text1;
+
+    //Player two
+        function legen2() {
+        let text2 ="";
+    
+        text2 += Player2[0].Bild.outerHTML + "<br>"; 
+
+        const keys = Object.keys(Player2[0]);  
+    
+        for (let x=1; x<7; x++) {
+        text2 += Player2[0][keys[x]] + "<br>";}
+
+        document.getElementById("card2").innerHTML = text2;
+        document.getElementById("but1").innerHTML = "Player 1 gewinnt diese Runde";}}}
+
+
+
+    //Spieler 2 legt zuerst
+        
+//Endspiel
+/*} else {
+    if (Spieler1.length>0) {
+        document.getElementById("win").innerHTML = "Player 1 hat gewonnen!";
+        document.getElementById("but1").innerHTML = "Nochmals spielen?";
+        gewinn1.addEventListener("click",restart());
+
+    } else{
+        document.getElementById("win").innerHTML = "Player 2 hat gewonnen!";
+        document.getElementById("but1").innerHTML = "Nochmals spielen?";
+        gewinn1.addEventListener("click",restart());
+
+    }
+}}*/
+
+function restart() {
+    location.reload();
+}
+
+    </script>
+
+
+
+</body>
+</html>

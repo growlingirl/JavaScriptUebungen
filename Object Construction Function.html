@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Construction Function</title> 
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<html>
+<body>
+<h1>JavaScript Object Constructors</h1>
+
+<p id="demo"></p>
+
+<script>
+// Constructor function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.fullname = this.firstName + " " + this.lastName;
+  this.age = age;
+  this.eyeColor = eye;
+  this.Footsize = 39;
+  // method:
+  this.fullName = function() {
+    return this.firstName + " " + this.lastName;};
+}
+
+// Add a new Property
+Person.prototype.species = "human";
+
+// Create 2 Person objects
+const myFather = new Person("John", "Doe", 50, "blue");
+const myMother = new Person("Sally", "Rally", 48, "green");
+
+// von Prototyp zu Element umschreiben
+myFather.species = myFather.species;
+myMother.species = myMother.species;
+
+// bei Änderung des Vornamens wird dies im fullname nicht angepasst, jedoch in der Funktion fullName schon
+myFather.firstName = "Gabriel";
+
+
+// Add nationality to first object
+myFather.nationality = "English";
+
+// Display 
+document.getElementById("demo").innerHTML =
+"<p>" + JSON.stringify(myFather) + myFather.species + " " + myFather.fullName() + "</p>"
++ "<p>" + JSON.stringify(myMother) + "</p>" ; 
+
+</script>
+
+</body>
+</html>

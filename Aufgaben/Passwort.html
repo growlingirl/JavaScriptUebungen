@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de-ch">
+    
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwortabfrage</title>
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+    <h1>Passwortabfrage</h1>
+
+    <form>
+        <label for="pw">bitte gib das korrekte Passwort ein</label> <br>
+
+        <input type="password" id="pw" name="pw"> <br> <br>
+
+        <input type="button" onclick=Abfrage() value="Eingabe" id="but">
+    </form>
+
+    <script>
+
+//use Enter as button click
+// Get the input field
+var input = document.getElementById("pw");
+
+// Execute a function when the user presses a key on the keyboard
+input.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("but").click();
+  }
+}); 
+
+
+function Abfrage() {
+
+    
+    if (localStorage.clickcount) {localStorage.clickcount = 
+            Number(localStorage.clickcount) + 1;
+    } else {
+        localStorage.clickcount = 1;
+    }
+      
+    let pw = document.getElementById('pw');
+
+    if (pw.value == "098765" && (localStorage.clickcount == 1 || localStorage.clickcount == 2 || localStorage.clickcount == 3 )) {
+        alert("BERECHTIGT" );
+    } else if (localStorage.clickcount == 1 && pw !="098765") {
+        alert('Passwort Falsch\ndu hast noch 2 Versuche');
+    } else if (localStorage.clickcount == 2 && pw !="098765") {
+        alert('Passwort Falsch\ndu hast noch 1 Versuch');
+    } else { 
+        alert('Passwort Falsch\ndu hast keine Versuche mehr übrig\nWende dich an deinen Administrator');
+        window.location.href = "https://www.google.ch"
+    }
+}
+
+    </script>
+
+  </body>
+</html>

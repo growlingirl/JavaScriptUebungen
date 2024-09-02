@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kalaha</title> 
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <h2>Kalaha</h2>
+    <br> <br>
+    <h3>Spielregeln</h3>
+    <p> Das Kalaha-Spielbrett ist ein Holzbrett mit zwei Muldenreihen mit je sechs Spielmulden. <br>
+        An jedem Ende befindet sich eine größere Gewinnmulde, die Kalaha. 
+        <br> <br>
+        Zu Beginn des Spiels werden alle Spielmulden mit je vier Steinen gefüllt. <br>
+        Das Ziel des Spiels ist es, mehr Steine (insgesamt 48) zu sammeln als der Gegner. <br>
+        Ist ein Spieler an der Reihe, wählt er eine seiner Spielmulden, nimmt ihren Inhalt <br>
+        und verteilt ihn gegen den Uhrzeigersinn in die darauf folgenden Mulden. <br>
+        Dabei wird in jede Mulde, außer in die gegnerische Kalaha, ein Stein gelegt. 
+        <br> <br>
+        Wenn der letzte Stein in der eigenen Kalaha landet ist er nochmals an der Reihe. <br>
+        Wenn der letzte Stein in einer leeren Spielmulde seiner Muldenreihe landet <br>
+        und direkt gegenüber in der gegnerischen Mulde ein oder mehrere Steine liegen, <br>
+        sind sowohl der letzte Stein als auch die gegenüberliegenden Steine gefangen <br>
+        und werden zu den eigenen Steinen in die Kalaha gelegt. 
+        <br> <br>
+        Das Spiel ist beendet, wenn ein Spieler nur noch geleerte Spielmulden hat. <br>
+        Der Gegner leert seine Spielmulden ebenfalls und legt die Steine in seine Kalaha. <br>
+        Gewinner ist, wer die meisten Steine in seiner Kalaha hat.
+</p>
+
+    <br> <br>
+    <button type="button" class="button" onclick="setinstone()">Spiel starten</button> 
+    <br> <br> <br> 
+    <div class="mulden-container">
+        <div class="muldeng"> 
+            <div class="mulg1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <p class="zaehler1" style="background-color: violet; margin-top: 0px; margin-left: 0px;">
+                    0
+                </p>
+            </div>
+            
+        </div> 
+        <div class="mulden" id="mulden">
+            
+        </div> 
+        <div class="muldeng">
+            <div class="mulg2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <p class="zaehler1" style="background-color: yellow; color: black; margin-top: 0px; margin-left: 0px;">
+                    0
+                </p>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    let mulden = document.getElementById("mulden");
+   
+    for (let i = 0; i < 12; i++) {
+      let slot = document.createElement("div");
+      slot.id = "slot_" + i;
+      slot.className = "slot";
+       slot.setAttribute('ondrop', 'drop(event)');
+        slot.setAttribute('ondragover','allowDrop(event)');
+
+      mulden.appendChild(slot);
+
+    farbgebungslot();
+        
+       
+        //create p to count stones
+        let p = document.createElement('p');
+
+        p.className = "zaehler1";
+        p.textContent = 0;
+        
+        farbgebungp();
+                
+        slot.appendChild(p);
+       
+    }
+});
+
+function setinstone() {
+
+    let slots = document.getElementsByClassName('slot')
+    for (let slot of slots) {
+        for( let x = 0; x < 4; x++) {
+            let stone = document.createElement("div");
+            stone.id = "stone" + slot.id + '_'  + x;
+            stone.className = "stone";
+                
+
+            slot.appendChild(stone);
+                stone.setAttribute('draggable','true');
+                stone.setAttribute('ondragstart','drag(event)')
+                stone.style.zIndex = slot.id;
+
+            if (window.innerWidth>window.innerHeight){
+                let W = 45;
+                stone.style.left = W+'%';
+                let H = 15*x+10;
+                stone.style.top = H+'%';
+            } else {
+                let W = 15*x+10;;
+                stone.style.left = W+'%';
+                let H = 45
+                stone.style.top = H+'%';
+            }
+                              
+            }
+        const childDivs = slot.querySelectorAll('div');
+        const numberOfDivs = childDivs.length;
+    
+        document.getElementsByTagName('p').innerHTML = numberOfDivs;
+
+        updateStoneCount(slot);
+    }
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData('div', ev.target.id);
+    ev.dataTransfer.setData('parent', ev.target.parentNode.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("div");
+    ev.target.appendChild(document.getElementById(data));
+
+    var parentData = ev.dataTransfer.getData("parent");
+    var stone = document.getElementById(data);
+    var targetSlot = ev.target;
+
+    while (!targetSlot.classList.contains('slot') && !targetSlot.classList.contains('mulg')) {
+        targetSlot = targetSlot.parentNode;
+    }
+
+    if (targetSlot.classList.contains('slot') || targetSlot.classList.contains('mulg')) {
+        targetSlot.appendChild(stone);
+        updateStoneCount(document.getElementById(parentData)); 
+        updateStoneCount(targetSlot);  
+    }
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function updateStoneCount(slot) {
+    let count = slot.getElementsByClassName('stone').length;
+    let p = slot.querySelector('p');
+    p.textContent = count;
+}
+
+function farbgebungslot() {
+    if (i<6 && window.innerWidth>window.innerHeight) {
+            slot.style.border = '2px solid violet';
+    } if (i>=6 && window.innerWidth>window.innerHeight) {
+            slot.style.border = '2px solid yellow';
+    } if (i%2==0 && window.innerWidth<window.innerHeight) {
+            slot.style.border = '2px solid violet';
+    } if (i%2==1 && window.innerWidth<window.innerHeight) {
+            slot.style.border = '2px solid yellow';}
+}
+
+function farbgebungp() {
+    if (i<6 && window.innerWidth>window.innerHeight) {
+            p.style.backgroundColor = 'violet';
+            console
+        } if (i>=6 && window.innerWidth>window.innerHeight) {
+            p.style.backgroundColor = 'yellow';
+            p.style.color = 'black';
+        } if (i%2==0 && window.innerWidth<window.innerHeight) {
+            p.style.backgroundColor = 'violet';
+        } if (i%2==1 && window.innerWidth<window.innerHeight) {
+            p.style.backgroundColor = 'yellow';
+            p.style.color = 'black';}
+}
+
+    </script>
+    
+</body>
+</html>

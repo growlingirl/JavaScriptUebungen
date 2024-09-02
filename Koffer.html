@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Koffer</title> 
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<h2>Ich packe in meinen Koffer...</h2> <br>
+
+<h3>Spielregeln</h3>
+<p>
+    Wer am längsten nicht mehr in den Ferien war, darf anfangen. <br>
+    Reihum wird der Satz Satz “Ich packe meinen Koffer 
+    und nehme mit: “ gesagt <br> und dann die Anzahl Gegenstände der Vorgänger angefügt
+    sowie einen eigenen weiteren Gegenstand und wieviel davon angefügt. <br>
+    Der Protokollführer schreibt die jeweiligen Gegenstände ins Formular und 
+    packt sie ein. <br>
+    Wenn alle nicht mehr sicher sind, was alles und in welcher Anzahl
+    eingepackt wurde, kann "Liste anschauen" ausgewählt werden.
+    <br> <br>
+    <span class="bold">Bonus Regel (extra schwierig):</span> <br>
+    Zusätzlich zum Einpacken eines neuen Gegenstandes, darf die Anzahl eines 
+    weiteren bereits genannten Gegenstandes angepasst werden. <br>
+    Der nächste Spieler muss dann den Gegenstand an seiner bisherigen Stelle, 
+    und die neue Anzahl -anstelle der alten Anzahl- nennen.
+</p>
+
+<form class="rechtsruck float">
+    <fieldset>
+    <label for="key">Gegenstand</label> <br> 
+    <input type="text" id="object" name="key" > <br> <br>
+    <label for="value">Anzahl</label> <br>
+    <input type="number" id="number" name="value" min="1" max="infinite"> <br> <br>
+    <button type="reset" value="Reset" class="button" onclick="Speicher()">Einpacken</button>
+    <button type="button" class="button" onclick="Liste()">Liste anschauen</button>
+</fieldset>
+</form>
+
+<div class="image-container">
+   <img src="/bilder/Koffer.jpg" alt="Bild eines geöffneten Koffers" class="float" id="kof"> 
+</div>
+
+<br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+
+<h3 id="hlist"></h3>
+<p id="plist"></p>
+
+<button type="button" class="button" onclick="Hide()">Weiterspielen</button>
+<button type="button" class="button" onclick="Clear()">Neues Spiel starten</button>
+
+
+<script>
+const key = document.getElementById("object");
+const value = document.getElementById("number");
+
+const Koffer = new Map();
+
+function Speicher() {
+    Koffer.set(key, value);
+    
+}
+
+function Liste() {
+    document.getElementById('hlist') = "Liste:";
+
+    let list = "";
+    Koffer.forEach (function(value, key) {
+    list += key + ' : ' + value + "<br>"
+    });
+
+    document.getElementById('plist') = list;
+}
+
+function Hide() {
+
+}
+
+function Clear() {
+    Koffer.clear();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Vue page</title>
+
+</head>
+<body>
+  <div id="app">
+    {{ message }} <br>
+    {{'Deine Glücks-Würfel Zahl lautet: ' + Math.ceil(Math.random()*6)}}
+  </div> 
+
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "Ciao " 
+            }
+        }
+    })
+
+app.mount('#app')
+
+</script>
+
+
+  
+ 
+
+</body>
+
+</html>

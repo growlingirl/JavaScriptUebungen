@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <label for="inputT">Text:</label>
+  <input type="text" id="inputText">
+  <label for="inputNumber">Number:</label>
+  <input type="number" id="inputNumber">
+  <button onclick="myFunction()">click</button>
+  <p id="htmlText"></p>
+
+  <script>
+    /*
+      Globale Variablen
+      Diese Variablen sind überall zugänglich. Bestmöglich Variablen
+      immer zuoberst definieren, damit man auch auf alle globale
+      Variablen zugreifen kann.
+      All der Code, der in keiner Funktion steht, wird direkt mit dem
+      laden der Seite aufgerufen und durchgeführt.
+    */
+    let globalVar = 1;
+
+    /*
+      Funktion, die via onclick auf dem Button augerufen auf Zeile 19 wird
+      Variablen, die in der Funktion definiert werden, sind nur in der
+      Funktion zugänglich. Globale Variablen (siehe oben) sind auch in der
+      Funktion zugänglich und können daher aufgerufen und manipuliert wertden.
+      
+      Soll erst etwas durchgefüht werden, wenn der User etwas gemacht hat,
+      nutze dafür einen Button, die eine Funktion aufruft.
+    */
+    function myFunction() {
+      // Variablen zu Beginn der Funktion definieren, gibt eine bessere Übersicht
+      let value1 = "";
+      let value2 = 0;
+
+      /*
+        Daten aus einem Input Feld lesen
+        value1 ist die Variable, in der der Wer gespeichert wird
+        document greift auf das aktuelle Dokument zu
+        .getElementById greift auf das HTML Element zu, dass die ID in der Klammer trägt (siehe Zeile 15)
+        .value liest den Wert aus dem Input Feld. .value geht aber nur bei Input Feldern!
+      */
+      value1 = document.getElementById("inputText").value;
+      console.log("value1", value1); // das Komma innerhalb der runden Klammern () gibt die Werte nacheinander aus
+
+      /*
+        Daten in ein Input Feld schreiben
+        Gleiches System wie oben, nur weisen wir dem .value mit = einen neuen Wert zu
+      */
+      document.getElementById("inputText").value = "Neuer Wert";
+
+      /*
+        Möchte man z.B. in ein p oder h1 im HTML rein schreiben, geht .value nicht.
+        Dafür muss .innerHTML genutzt werden.
+      */
+      document.getElementById("htmlText").innerHTML = value1;
+
+      /*
+        Daten die aus einem Input Feld gelesen werden, sind immer Strings, auch wenn
+        das Input Feld vom Typ "number" ist. Daher muss man den Wert vom String
+        zuerst in eine Zahl umwandeln, sonst bekommt man ein NaN (not a number).
+        typeof(VARIABLE) gibt den Datentyp der Variable zurück
+      */
+      value2 = parseInt(document.getElementById("inputNumber").value);
+      console.log("value2", value2, typeof (value2));
+
+      /*
+        aufruf der globalen Variable
+        jedes mal, wenn die Funktion aufgerufen wird, wird die Variable globalVar
+        um 1 erhöht. Der Wert wird auch gespeichert, nachdem die Funktion beendet
+        wurde. Aber alles was innerhalb der Funktion definiert wurde, wird nach
+        dem beenden der Funktion gelöscht.
+      */
+      globalVar++;
+      console.log("globalVar", globalVar);
+    }
+  </script>
+
+</body>
+
+</html>

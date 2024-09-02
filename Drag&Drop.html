@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Drag&Drop</title> 
+    <link rel="icon" type="image/x-icon" href="/bilder/scroll.PNG">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    
+    <br> <br> <br> <br>
+    <div id="s1" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+        <div class="stein" id="st1" draggable="true" ondragstart="drag(event)"></div>
+        <p id="p1" class="zaehler1"></p>
+    </div>
+<br> <br> <br> <br>
+
+    
+
+    <div id="s2" class='slot' ondrop="drop(event)" ondragover="allowDrop(event)"> 
+      <p id="p2" class="zaehler2"></p>
+      
+    </div>
+
+    
+<script>
+
+//drag & drop
+function drag(ev) {
+    ev.dataTransfer.setData("div", ev.target.id)
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("div");
+
+    ev.target.appendChild(document.getElementById(data));
+    
+    zahl();
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+
+//counting child divs
+
+function zahl() {
+        for (let i = 1; i<=2 ; i++) {
+        let ip = 'p' + i;
+        let is = 's' + i;
+      
+        const parentDiv = document.getElementById(is);
+        const childDivs = parentDiv.getElementsByTagName('div');
+
+        const Z = childDivs.length;
+        console.log(Z);  
+    
+        document.getElementById(ip).innerHTML = Z;
+    }
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
