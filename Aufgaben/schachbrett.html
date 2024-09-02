@@ -8,11 +8,17 @@
     #gridContainer {
         display: grid; 
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+        border: 10px double brown;
     }
 
-    #gridContainer > div {
-        text-align: center;
-
+    #gridContainer > div > div {
+    aspect-ratio: 1 / 1; /* Ensure each square has equal height and width */
+    width: 100%; /* Set width to take up the full available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px; /* Adjust font size as needed */
+    box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
     }
 
     .dropdown {
@@ -21,7 +27,7 @@
     }
 
     .black, .white {
-        padding: 16px 0px;
+        padding: 16px 5px;
         min-width: 145px;
         font-size: 16px;
         cursor: pointer;
@@ -35,6 +41,16 @@
     .white {
         background-color: white;
         color: blue;
+    }
+
+#gridContainer > div > div {
+    aspect-ratio: 1 / 1; /* Ensure each square has equal height and width */
+    width: 100%; /* Set width to take up the full available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* Adjust font size as needed */
+    box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
     }
 
     .dropdown-content {
@@ -70,7 +86,9 @@
         white-space: pre;
     }
 
-    
+    #um > button {
+        cursor: pointer;
+    }
     
   </style>
 </head>
@@ -94,7 +112,13 @@
   <div id="gridContainer">
 
   </div>
+
+  <div>
+    <br> <br>
+    <div id="um">
     
+    </div>
+  </div>  
   <script>
 
     const abc = ['A','B','C','D','E','F','G','H'];
@@ -109,6 +133,7 @@
     for (let i = 0 ; i < 8 ; i++) {
         let Reihe = document.createElement('div');
         Reihe.id = "Reihe " + abc[i];
+       
         gridContainer.appendChild(Reihe);
 
         for (let j = 1 ; j < 9 ; j++) {
@@ -132,11 +157,13 @@
         }
         
     }
-let button = document.createElement('button');
-            button.textContent = 'Schachbrett umdrehen';
-            button.setAttribute('onclick', 'drehen()');
-            button.className='but';
-            gridContainer.appendChild(button);
+    let um = document.getElementById('um');
+    um.innerHTML = '';
+    let button = document.createElement('button');
+    button.textContent = 'Schachbrett umdrehen';
+    button.setAttribute('onclick', 'drehen()');
+    button.className='but';
+    um.appendChild(button);
     }
 
     function white() {
@@ -169,12 +196,15 @@ let button = document.createElement('button');
             
         }
     }
-let button = document.createElement('button');
-            button.textContent = 'Schachbrett umdrehen';
-            button.setAttribute('onclick', 'drehen()');
-            button.className='but';
-            gridContainer.appendChild(button);
-    }
+
+    let um = document.getElementById('um');
+    um.innerHTML= '';
+    let button = document.createElement('button');
+    button.textContent = 'Schachbrett umdrehen';
+    button.setAttribute('onclick', 'drehen()');
+    button.className='but';
+    um.appendChild(button);
+}
 
     function drehen() {
         
