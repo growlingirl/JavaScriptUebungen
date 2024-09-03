@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stoppuhr</title>
+  <style>
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+     
+    table, th, td, tr  {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+
+    table {
+        width: 90%;
+    }
+
+    div {
+        text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th style="width: 25%;">Startzeit</th>
+        <th>Stunden</th>
+        <th>Minuten</th>
+        <th>Sekunden</th>
+        <th>Hunderstel Sekunden</th>
+        <th style="width: 25%;">Endzeit</th>
+    </tr>
+    <tr>
+        <td id="start"></td>
+        <td id="std"></td>
+        <td id="min"></td>
+        <td id="sek"></td>
+        <td id="hsek"></td>
+        <td id="stop"></td>
+    </tr>
+</table>
+
+<div>
+<p>Stoppuhr starten</p>
+<button type="button" onclick="start()">&#9205</button>
+</div>
+<div>
+<p>Stoppuhr stoppen</p>
+<button type="button" onclick="stop()">&#9209</button>
+</div>
+<div>
+<p>Zeit speichern</p>
+<button type="button" onclick="safe()">&#128190</button>
+</div>
+<div>
+<p>Stoppuhr zurückstellen</p>
+<button type="button" onclick="clearClock()">&#129529</button>
+</div>
+
+<table>
+    <tr>
+        <th style="width: 25%;">Speicher</th>
+    </tr>
+    <tr id="speicher">
+        
+    </tr>
+</table>
+
+<script>
+
+function start() {
+    const t = new Date();
+    document.getElementById("start").innerHTML = t;  
+}
+
+function stop() {
+    const p = new Date();
+    document.getElementById("stop").innerHTML = p; 
+    console.log(p) 
+
+    const t = document.getElementById("start").innerHTML;
+    console.log(t) 
+    console.log(getTime(p)) 
+
+    const Z = getTime(p)-getTime(t);
+    document.getElementById("std").innerHTML = Z;
+
+
+
+/*Stunden
+    const u = getHours(p)-getHours(t);
+    document.getElementById("std").innerHTML = u;  
+//Minuten
+     u = getMinutes(p)-getMinutes(t);
+    document.getElementById("min").innerHTML = u;  
+//Sekunden
+     u = getSeconds(p)-getSeconds(t);
+    document.getElementById("sek").innerHTML = u;  
+//Hunderstel Sekunden
+     u = (getMilliseconds(p)/10)-(getMilliseconds(p)/10);
+    document.getElementById("hsek").innerHTML = u;  */
+
+
+}
+
+function clearClock() {
+    document.getElementById("start").innerHTML = '';  
+    document.getElementById("stop").innerHTML = '';  
+}
+
+function safe() {
+    let table = document.getElementById("speicher");
+    let slot = document.createElement("td");
+
+    table.appendChild(slot);
+    slot.innerHTML = '';
+
+}
+</script>
+
+</body>
+</html>
