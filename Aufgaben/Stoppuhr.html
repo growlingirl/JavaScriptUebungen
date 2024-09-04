@@ -24,6 +24,10 @@
         text-align: center;
     }
 
+    [id^="msek"] {
+        display: none;
+    }
+
   </style>
 </head>
 <body>
@@ -34,7 +38,8 @@
         <th>Stunden</th>
         <th>Minuten</th>
         <th>Sekunden</th>
-        <th>Hunderstel Sekunden</th>
+        <th id="hsek0">Hundertstel Sekunden</th>
+        <th id="msek0">Millisekunden</th>
         
     </tr>
     <tr>
@@ -43,6 +48,7 @@
         <td id="min1"></td>
         <td id="sek1"></td>
         <td id="hsek1"></td>
+        <td id="msek1"></td>
         
     </tr>
     <tr>
@@ -51,7 +57,25 @@
         <td id="min2"></td>
         <td id="sek2"></td>
         <td id="hsek2"></td>
+        <td id="msek2"></td>
         
+    </tr>
+    <tr>
+        <td >Unterschied</td>
+        <td id="std3"></td>
+        <td id="min3"></td>
+        <td id="sek3"></td>
+        <td id="hsek3"></td>
+        <td id="msek3"></td>
+        
+    </tr>
+    <tr>
+        <td >Zähler</td>
+        <td id="std4"></td>
+        <td id="min4"></td>
+        <td id="sek4"></td>
+        <td id="hsek4"></td>
+        <td id="msek5"></td>
     </tr>
 </table>
 
@@ -74,18 +98,29 @@
 <br>
 <table>
     <tr>
-        <th style="width: 25%;">Speicher</th>
+        <th colspan="4" >Speicher</th>
     </tr>
-    <tr id="speicher">
+    <tbody id="tableBody">
+        <tr>
+            <td>Stunden</td>
+            <td>Minuten</td>
+            <td>Sekunden</td>
+            <td>Hundertstel Sekunden</td>        
+        </tr>
         
-    </tr>
+    </tbody>
 </table>
 
 <script>
 
+let A;
+let startTime;
+
 function start() {
-    let ms = Date.now();
-    let hs = (ms - (ms % 10)) / 10;
+//Startzeit
+    startTime = Date.now();
+    document.getElementById('msek1').innerHTML = startTime;
+    let hs = (startTime - (startTime % 10)) / 10;
     document.getElementById('hsek1').innerHTML = hs % 100;
     let s = (hs - (hs % 100)) / 100;
     document.getElementById('sek1').innerHTML = s % 60;
@@ -94,14 +129,36 @@ function start() {
     let h = (m - (m % 60)) / 60;
     document.getElementById('std1').innerHTML = h;
 
-    /*
-    const t = new Date();
-    document.getElementById("start").innerHTML = t;  */
+//Zähler
+    if (Date.now() != sms) {
+    A = setInterval(zaehlen, 1000);
+}  
+
+    }
+
+   function zaehlen() {
+    let zms = Date.now() - startTime;
+
+    document.getElementById('msek4').innerHTML = zms;
+    let zhs = (zms - (zms % 10)) / 10;
+    document.getElementById('hsek4').innerHTML = zhs % 100;
+    let zs = (zhs - (zhs % 100)) / 100;
+    document.getElementById('sek4').innerHTML = zs % 60;
+    let zm = (zs - (zs % 60)) / 60;
+    document.getElementById('min4').innerHTML = zm % 60;
+    let zh = (zm - (zm % 60)) / 60;
+    document.getElementById('std4').innerHTML = zh;
 }
 
 function stop() {
-    let ms = Date.now();
-    let hs = (ms - (ms % 10)) / 10;
+// stop Timer
+clearInterval(A);
+
+//Endzeit
+
+    let ems = Date.now();
+    document.getElementById('msek2').innerHTML = ems;
+    let hs = (ems - (ems % 10)) / 10;
     document.getElementById('hsek2').innerHTML = hs % 100;
     let s = (hs - (hs % 100)) / 100;
     document.getElementById('sek2').innerHTML = s % 60;
@@ -109,45 +166,70 @@ function stop() {
     document.getElementById('min2').innerHTML = m % 60;
     let h = (m - (m % 60)) / 60;
     document.getElementById('std2').innerHTML = h;
+
+//Unterschied
+    let sms = document.getElementById('msek1').innerHTML;
+    let ums = ems - sms;
+    document.getElementById('msek3').innerHTML = ums;
+
+    let uhs = (ums - (ums % 10)) / 10;
+    document.getElementById('hsek3').innerHTML = uhs % 100;
+    let us = (uhs - (uhs % 100)) / 100;
+    document.getElementById('sek3').innerHTML = us % 60;
+    let um = (us - (us % 60)) / 60;
+    document.getElementById('min3').innerHTML = um % 60;
+    let uh = (um - (um % 60)) / 60;
+    document.getElementById('std3').innerHTML = uh;
     
-    /*const p = new Date();
-    document.getElementById("stop").innerHTML = p; 
-    console.log(p) 
-
-    const t = document.getElementById("start").innerHTML;
-    console.log(t) 
-    console.log(getTime(p)) 
-
-    const Z = getTime(p)-getTime(t);
-    document.getElementById("std").innerHTML = Z;
-
-Stunden
-    const u = getHours(p)-getHours(t);
-    document.getElementById("std").innerHTML = u;  
-//Minuten
-     u = getMinutes(p)-getMinutes(t);
-    document.getElementById("min").innerHTML = u;  
-//Sekunden
-     u = getSeconds(p)-getSeconds(t);
-    document.getElementById("sek").innerHTML = u;  
-//Hunderstel Sekunden
-     u = (getMilliseconds(p)/10)-(getMilliseconds(p)/10);
-    document.getElementById("hsek").innerHTML = u;  */
-
 
 }
 
 function clearClock() {
-    document.getElementById("start").innerHTML = '';  
-    document.getElementById("stop").innerHTML = '';  
+    document.getElementById("std1").innerHTML = '';  
+    document.getElementById("min1").innerHTML = '';  
+    document.getElementById("sek1").innerHTML = '';  
+    document.getElementById("hsek1").innerHTML = ''; 
+    document.getElementById("msek1").innerHTML = ''; 
+    
+    document.getElementById("std2").innerHTML = '';  
+    document.getElementById("min2").innerHTML = '';  
+    document.getElementById("sek2").innerHTML = '';  
+    document.getElementById("hsek2").innerHTML = ''; 
+    document.getElementById("msek2").innerHTML = '';  
+    
+    document.getElementById("std3").innerHTML = '';  
+    document.getElementById("min3").innerHTML = '';  
+    document.getElementById("sek3").innerHTML = '';  
+    document.getElementById("hsek3").innerHTML = ''; 
+    document.getElementById("msek3").innerHTML = '';  
 }
 
 function safe() {
-    let table = document.getElementById("speicher");
-    let slot = document.createElement("td");
 
-    table.appendChild(slot);
-    slot.innerHTML = '';
+// Get the table body element in which you want to add row
+    let table = document.getElementById("tableBody");
+
+// Create row element
+    let row = document.createElement("tr")
+
+// Create cells
+    let td1 = document.createElement("td");
+    let td2 = document.createElement("td");
+    let td3 = document.createElement("td");
+    let td4 = document.createElement("td");
+// Insert data to cells
+    td1.textContent = document.getElementById('std3').innerHTML;
+    td2.textContent = document.getElementById('min3').innerHTML;
+    td3.textContent = document.getElementById('sek3').innerHTML;
+    td4.textContent = document.getElementById('hsek3').innerHTML;
+// Append cells to row
+    row.appendChild(td1);
+    row.appendChild(td2);
+    row.appendChild(td3);
+    row.appendChild(td4);
+    
+// Append row to table body
+    table.appendChild(row);
 
 }
 </script>
