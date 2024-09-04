@@ -28,6 +28,9 @@
         display: none;
     }
 
+    .hidden {
+        display: none;
+    }
   </style>
 </head>
 <body>
@@ -42,7 +45,7 @@
         <th id="msek0">Millisekunden</th>
         
     </tr>
-    <tr>
+    <tr class="hidden">
         <td >Startzeit</td>
         <td id="std1"></td>
         <td id="min1"></td>
@@ -51,7 +54,7 @@
         <td id="msek1"></td>
         
     </tr>
-    <tr>
+    <tr class="hidden">
         <td >Endzeit</td>
         <td id="std2"></td>
         <td id="min2"></td>
@@ -60,7 +63,7 @@
         <td id="msek2"></td>
         
     </tr>
-    <tr>
+    <tr class="hidden">
         <td >Unterschied</td>
         <td id="std3"></td>
         <td id="min3"></td>
@@ -75,7 +78,7 @@
         <td id="min4"></td>
         <td id="sek4"></td>
         <td id="hsek4"></td>
-        <td id="msek5"></td>
+        <td id="msek4"></td>
     </tr>
 </table>
 
@@ -130,9 +133,9 @@ function start() {
     document.getElementById('std1').innerHTML = h;
 
 //Zähler
-    if (Date.now() != sms) {
-    A = setInterval(zaehlen, 1000);
-}  
+   
+    A = setInterval(zaehlen, 10);
+
 
     }
 
@@ -202,6 +205,12 @@ function clearClock() {
     document.getElementById("sek3").innerHTML = '';  
     document.getElementById("hsek3").innerHTML = ''; 
     document.getElementById("msek3").innerHTML = '';  
+
+    document.getElementById("std4").innerHTML = '';  
+    document.getElementById("min4").innerHTML = '';  
+    document.getElementById("sek4").innerHTML = '';  
+    document.getElementById("hsek4").innerHTML = ''; 
+    document.getElementById("msek4").innerHTML = '';  
 }
 
 function safe() {
