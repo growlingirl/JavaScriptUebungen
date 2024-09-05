@@ -12,8 +12,9 @@
     }
      
     table, th, td, tr  {
-        border: 2px solid black;
+        border: 2px none black;
         border-collapse: collapse;
+        align-content: center;
     }
 
     table {
@@ -28,77 +29,41 @@
         display: none;
     }
 
-    .hidden {
-        display: none;
-    }
+
+    
   </style>
 </head>
 <body>
 
 <table>
     <tr>
-        <th style="width: 25%;">Zeiten</th>
-        <th>Stunden</th>
-        <th>Minuten</th>
-        <th>Sekunden</th>
-        <th id="hsek0">Hundertstel Sekunden</th>
-        <th id="msek0">Millisekunden</th>
         
-    </tr>
-    <tr class="hidden">
-        <td >Startzeit</td>
-        <td id="std1"></td>
-        <td id="min1"></td>
-        <td id="sek1"></td>
-        <td id="hsek1"></td>
-        <td id="msek1"></td>
-        
-    </tr>
-    <tr class="hidden">
-        <td >Endzeit</td>
-        <td id="std2"></td>
-        <td id="min2"></td>
-        <td id="sek2"></td>
-        <td id="hsek2"></td>
-        <td id="msek2"></td>
-        
-    </tr>
-    <tr class="hidden">
-        <td >Unterschied</td>
-        <td id="std3"></td>
-        <td id="min3"></td>
-        <td id="sek3"></td>
-        <td id="hsek3"></td>
-        <td id="msek3"></td>
+        <td>Stunden</td>
+        <td>Minuten</td>
+        <td>Sekunden</td>
+        <td id="hsek0">Hundertstel Sekunden</td>
+        <td id="msek0">Millisekunden</td>
         
     </tr>
     <tr>
-        <td >Zähler</td>
-        <td id="std4"></td>
-        <td id="min4"></td>
-        <td id="sek4"></td>
-        <td id="hsek4"></td>
-        <td id="msek4"></td>
+        
+        <td id="std4">0</td>
+        <td id="min4">0</td>
+        <td id="sek4">0</td>
+        <td id="hsek4">0</td>
+        <td id="msek4">0</td>
     </tr>
 </table>
 
-<div>
-<p>Stoppuhr starten</p>
-<button type="button" onclick="start()">&#9205</button>
-</div>
-<div>
-<p>Stoppuhr stoppen</p>
-<button type="button" onclick="stop()">&#9209</button>
-</div>
-<div>
-<p>Zeit speichern</p>
-<button type="button" onclick="safe()">&#128190</button>
-</div>
-<div>
-<p>Stoppuhr zurückstellen</p>
-<button type="button" onclick="clearClock()">&#129529</button>
-</div>
-<br>
+<table>
+       <tr>
+        <td><button type="button" onclick="start()">&#9205 Start / &#9209 Stop</button></td>
+        <td><button type="button" onclick="safe()">&#128190 Safe</button></td>
+        <td><button type="button" onclick="clearClock()">&#129529 Clear</button></td>
+    </tr>
+</table>
+
+<br> <br> <br> <br> <br>
 <table>
     <tr>
         <th colspan="4" >Speicher</th>
@@ -117,30 +82,32 @@
 <script>
 
 let A;
-let startTime;
+let startTime = 0;
+let running = false;
+let zms;
+let ums = 0;
 
 function start() {
-//Startzeit
-    startTime = Date.now();
-    document.getElementById('msek1').innerHTML = startTime;
-    let hs = (startTime - (startTime % 10)) / 10;
-    document.getElementById('hsek1').innerHTML = hs % 100;
-    let s = (hs - (hs % 100)) / 100;
-    document.getElementById('sek1').innerHTML = s % 60;
-    let m = (s - (s % 60)) / 60;
-    document.getElementById('min1').innerHTML = m % 60;
-    let h = (m - (m % 60)) / 60;
-    document.getElementById('std1').innerHTML = h;
-
-//Zähler
-   
+    running = !running;
+    
+    if (running == true) {
+        if (startTime == 0) {
+          startTime = Date.now();  
+        } 
+        
+    //Zähler
     A = setInterval(zaehlen, 10);
 
+    } else {
+    // stop Timer
+    clearInterval(A);
+    ums = zms;
 
     }
+}
 
-   function zaehlen() {
-    let zms = Date.now() - startTime;
+function zaehlen() {
+    zms = Date.now() - startTime;
 
     document.getElementById('msek4').innerHTML = zms;
     let zhs = (zms - (zms % 10)) / 10;
@@ -153,64 +120,15 @@ function start() {
     document.getElementById('std4').innerHTML = zh;
 }
 
-function stop() {
-// stop Timer
-clearInterval(A);
-
-//Endzeit
-
-    let ems = Date.now();
-    document.getElementById('msek2').innerHTML = ems;
-    let hs = (ems - (ems % 10)) / 10;
-    document.getElementById('hsek2').innerHTML = hs % 100;
-    let s = (hs - (hs % 100)) / 100;
-    document.getElementById('sek2').innerHTML = s % 60;
-    let m = (s - (s % 60)) / 60;
-    document.getElementById('min2').innerHTML = m % 60;
-    let h = (m - (m % 60)) / 60;
-    document.getElementById('std2').innerHTML = h;
-
-//Unterschied
-    let sms = document.getElementById('msek1').innerHTML;
-    let ums = ems - sms;
-    document.getElementById('msek3').innerHTML = ums;
-
-    let uhs = (ums - (ums % 10)) / 10;
-    document.getElementById('hsek3').innerHTML = uhs % 100;
-    let us = (uhs - (uhs % 100)) / 100;
-    document.getElementById('sek3').innerHTML = us % 60;
-    let um = (us - (us % 60)) / 60;
-    document.getElementById('min3').innerHTML = um % 60;
-    let uh = (um - (um % 60)) / 60;
-    document.getElementById('std3').innerHTML = uh;
-    
-
-}
-
 function clearClock() {
-    document.getElementById("std1").innerHTML = '';  
-    document.getElementById("min1").innerHTML = '';  
-    document.getElementById("sek1").innerHTML = '';  
-    document.getElementById("hsek1").innerHTML = ''; 
-    document.getElementById("msek1").innerHTML = ''; 
-    
-    document.getElementById("std2").innerHTML = '';  
-    document.getElementById("min2").innerHTML = '';  
-    document.getElementById("sek2").innerHTML = '';  
-    document.getElementById("hsek2").innerHTML = ''; 
-    document.getElementById("msek2").innerHTML = '';  
-    
-    document.getElementById("std3").innerHTML = '';  
-    document.getElementById("min3").innerHTML = '';  
-    document.getElementById("sek3").innerHTML = '';  
-    document.getElementById("hsek3").innerHTML = ''; 
-    document.getElementById("msek3").innerHTML = '';  
 
-    document.getElementById("std4").innerHTML = '';  
-    document.getElementById("min4").innerHTML = '';  
-    document.getElementById("sek4").innerHTML = '';  
-    document.getElementById("hsek4").innerHTML = ''; 
-    document.getElementById("msek4").innerHTML = '';  
+    document.getElementById("std4").innerHTML = '0';  
+    document.getElementById("min4").innerHTML = '0';  
+    document.getElementById("sek4").innerHTML = '0';  
+    document.getElementById("hsek4").innerHTML = '0'; 
+    document.getElementById("msek4").innerHTML = '0';  
+
+    startTime = 0;
 }
 
 function safe() {
@@ -227,10 +145,10 @@ function safe() {
     let td3 = document.createElement("td");
     let td4 = document.createElement("td");
 // Insert data to cells
-    td1.textContent = document.getElementById('std3').innerHTML;
-    td2.textContent = document.getElementById('min3').innerHTML;
-    td3.textContent = document.getElementById('sek3').innerHTML;
-    td4.textContent = document.getElementById('hsek3').innerHTML;
+    td1.textContent = document.getElementById('std4').innerHTML;
+    td2.textContent = document.getElementById('min4').innerHTML;
+    td3.textContent = document.getElementById('sek4').innerHTML;
+    td4.textContent = document.getElementById('hsek4').innerHTML;
 // Append cells to row
     row.appendChild(td1);
     row.appendChild(td2);
