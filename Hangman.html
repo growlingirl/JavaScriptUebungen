@@ -118,7 +118,7 @@ let flexbox1 = document.getElementsByClassName('flexbox1');
       letterButton.id = letter[x];
       letterButton.textContent = letterButton.id;
       letterButton.setAttribute('type','button');
-      letterButton.setAttribute('onclick','check(letterButton.id)');
+      letterButton.addEventListener('onclick',check(letterButton.id));
       flexbox1.appendChild(letterButton);
     }
 
