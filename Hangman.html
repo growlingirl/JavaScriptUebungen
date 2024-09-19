@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hangman</title>
+  <style>
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+    }
+      
+    #flexcontainer1 , #flexcontainer2 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: start;
+    margin: 10px;
+    width: 96vw;
+    align-content: space-between;
+    justify-content: center;
+  }
+
+  div {
+    border: black 1px solid;
+  }
+
+  #flexbox1 , #flexbox2 {
+    display: flex;
+    flex-direction: row;
+    width: 47vw;
+    
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+  }
+
+  #A , #B , #C , #D , #E , #F , #G , #H , #I , #J , #K , #L , #M , #N , #O , #P , #Q , #R , #S , #T , #U , #V , #W , #X , #Y , #Z {
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    background-color: lightgray;
+  }
+
+  data {
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    border-bottom-style: solid;
+    background-color: aquamarine;
+  }
+
+  </style>
+</head>
+<body>
+<h1>Hangman</h1>
+<button type="button" onclick="start()">Spiel starten</button>
+<p id="win"></p>
+
+<div id="flexcontainer1">
+
+</div>
+<div id="flexcontainer2">
+  <div id="flexbox1">
+    
+
+  </div>
+  <div id="flexbox2">
+
+
+  </div>
+</div>
+
+
+<script>
+
+let flexbox1 = document.getElementsByClassName('flexbox1');
+  let random;
+  let wordLetter;
+  let wordLenght;
+  let Space;
+  let letterButton;
+  let mistake;
+  let words = ['Nahrungsmittelunvertraeglichkeit', 'Strassenverkehrszulassung',
+    'Kraftfahrzeughaftpflichtversicherung', 'Donaudampfschifffahrtsgesellschaft',
+    'Wermutstropfen','Strassenentwaesserung','Verkehrswegplanung','Telekommunikation',
+    'Vokabellernapp','Ueberwachungsverordnung','Telekommunikation','Unternehmenssteuer',
+    'Augenoptikermeister','Maedesuess','Einfaltspinsel','Chrysantheme','Fronleichnam',
+    'Gallionsfigur', 'hanebuechen', 'nichtsdestotrotz', 'Portemonnaie','Bredouille',
+    'unentgeltlich', 'Burgverlies', 'Schlaffitchen', 'Ouvertuere'];
+  let letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  let image = [img('bilder/Hangman/one.png','one mistake') , img('bilder/Hangman/two.png','two mistakes') ,
+              img('bilder/Hangman/three.png','three mistakes') ,img('bilder/Hangman/four.png','four mistakes') ,
+              img('bilder/Hangman/five.png','five mistakes') ,img('bilder/Hangman/six.png','six mistakes') ,
+              img('bilder/Hangman/seven.png','seven mistakes') ,img('bilder/Hangman/eight.png','eight mistakes') ,
+              img('bilder/Hangman/nine.png','nine mistakes') ,img('bilder/Hangman/ten.png','ten mistakes')]
+
+   
+  function start() {
+    let flexcontainer1 = document.getElementById('flexcontainer1');
+    random = Math.floor(Math.random()*words.length);
+    let word = words[random];
+    wordLetter = word.split('');
+    wordLenght = wordLetter.length;
+
+    console.log(word);
+
+    for (let j = 0; j < wordLenght; j++) {
+      Space = document.createElement("data");
+      Space.className = wordLetter[j];
+      flexcontainer1.appendChild(Space);
+    }
+
+    for (let x = 0; x < 26; x++) {
+      let flexbox1 = document.getElementById('flexbox1');
+      letterButton = document.createElement("button");
+      letterButton.id = letter[x];
+      letterButton.textContent = letterButton.id;
+      letterButton.setAttribute('type','button');
+      letterButton.setAttribute('onclick','check(letterButton.id)');
+      flexbox1.appendChild(letterButton);
+    }
+
+    mistake = -1;
+    document.getElementById('flexbox2').innerHTML = '';
+    document.getElementById('win').innerHTML = '';
+  }
+
+  function check(i) {
+    let isLetterPresent = wordLetter.includes(i);
+
+    console.log(i);
+
+    if (isLetterPresent) {
+      for (y = 0; y < wordLenght ; y++) {
+        if (wordLetter == i) {
+          document.getElementsByClassName('i').innerHTML = i;
+        } else {
+          
+        }
+      }
+    } else { 
+      mistake += 1;
+      
+      document.getElementById('flexbox2').appendChild(image[mistake]);
+      if (mistake == 9) {
+      document.getElementById('win').innerHTML = 'Du hast verloren!';
+      document.getElementById('flexbox1').innerHTML = '';
+      }
+
+    }
+  }
+
+  function img(source, alt) {
+    var x = document.createElement("IMG");
+    x.setAttribute("src", source);
+    x.setAttribute("width", "400px");
+    x.setAttribute("height", "auto");
+    x.setAttribute("alt", alt);
+    return x;
+  };
+</script>
+</body>
+</html>
