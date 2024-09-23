@@ -32,7 +32,7 @@
     width: 47vw;
     
     flex-wrap: wrap;
-    align-content: space-between;
+    align-content: flex-start;
     justify-content: center;
   }
 
@@ -43,17 +43,20 @@
     background-color: lightgray;
   }
 
-  data {
+    data {
     width: 20px;
     height: 20px;
     margin: 10px;
     border-bottom-style: solid;
     background-color: aquamarine;
+    text-align: center;
   }
 
   </style>
 </head>
+
 <body>
+
 <h1>Hangman</h1>
 <button type="button" onclick="start()">Spiel starten</button>
 <p id="win"></p>
@@ -75,7 +78,7 @@
 
 <script>
 
-let flexbox1 = document.getElementsByClassName('flexbox1');
+  let flexbox1 = document.getElementsByClassName('flexbox1');
   let random;
   let wordLetter;
   let wordLenght;
@@ -90,21 +93,29 @@ let flexbox1 = document.getElementsByClassName('flexbox1');
     'Gallionsfigur', 'hanebuechen', 'nichtsdestotrotz', 'Portemonnaie','Bredouille',
     'unentgeltlich', 'Burgverlies', 'Schlaffitchen', 'Ouvertuere'];
   let letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  let image = [img('bilder/Hangman/one.png','one mistake') , img('bilder/Hangman/two.png','two mistakes') ,
-              img('bilder/Hangman/three.png','three mistakes') ,img('bilder/Hangman/four.png','four mistakes') ,
-              img('bilder/Hangman/five.png','five mistakes') ,img('bilder/Hangman/six.png','six mistakes') ,
-              img('bilder/Hangman/seven.png','seven mistakes') ,img('bilder/Hangman/eight.png','eight mistakes') ,
-              img('bilder/Hangman/nine.png','nine mistakes') ,img('bilder/Hangman/ten.png','ten mistakes')]
+  let image = ['bilder/Hangman/one.png' , 'bilder/Hangman/two.png' ,
+              'bilder/Hangman/three.png','bilder/Hangman/four.png' ,
+              'bilder/Hangman/five.png' ,'bilder/Hangman/six.png' ,
+              'bilder/Hangman/seven.png','bilder/Hangman/eight.png' ,
+              'bilder/Hangman/nine.png' ,'bilder/Hangman/ten.png']
 
    
   function start() {
     let flexcontainer1 = document.getElementById('flexcontainer1');
+    flexcontainer1.innerHTML = '';
+    let flexbox1 = document.getElementById('flexbox1');
+    flexbox1.innerHTML = '';
+    document.getElementById('flexbox2').innerHTML = '';
+    document.getElementById('win').innerHTML = '';
+    mistake = -1;
+
     random = Math.floor(Math.random()*words.length);
     let word = words[random];
-    wordLetter = word.split('');
+    wordLetter = word.toUpperCase().split('');
     wordLenght = wordLetter.length;
 
     console.log(word);
+    console.log(wordLetter);
 
     for (let j = 0; j < wordLenght; j++) {
       Space = document.createElement("data");
@@ -113,44 +124,64 @@ let flexbox1 = document.getElementsByClassName('flexbox1');
     }
 
     for (let x = 0; x < 26; x++) {
-      let flexbox1 = document.getElementById('flexbox1');
       letterButton = document.createElement("button");
       letterButton.id = letter[x];
       letterButton.textContent = letterButton.id;
       letterButton.setAttribute('type','button');
-      letterButton.addEventListener('onclick',check(letterButton.id));
+      
+     
+      letterButton.addEventListener('click',function() {
+        check(this.id);
+        this.style.display = 'none';
+      });
       flexbox1.appendChild(letterButton);
-    }
-
-    mistake = -1;
-    document.getElementById('flexbox2').innerHTML = '';
-    document.getElementById('win').innerHTML = '';
+    }   
   }
 
   function check(i) {
     let isLetterPresent = wordLetter.includes(i);
 
     console.log(i);
+    console.log(isLetterPresent);
 
     if (isLetterPresent) {
-      for (y = 0; y < wordLenght ; y++) {
-        if (wordLetter == i) {
-          document.getElementsByClassName('i').innerHTML = i;
-        } else {
-          
-        }
+      let fillspace = document.getElementsByClassName(i);
+
+      for (let element of fillspace) {
+        element.innerHTML = i;
       }
+      
+      // Check if all fields are filled after the current guess
+      if (checkIfFilled()) {
+        // If true, display a winning message and stop further guesses
+        document.getElementById('win').innerHTML = 'Du hast gewonnen!';
+        document.getElementById('flexbox1').innerHTML = '';
+      }
+        
+
     } else { 
       mistake += 1;
-      
-      document.getElementById('flexbox2').appendChild(image[mistake]);
-      if (mistake == 9) {
-      document.getElementById('win').innerHTML = 'Du hast verloren!';
-      document.getElementById('flexbox1').innerHTML = '';
-      }
+      document.getElementById('flexbox2').innerHTML = '';
+      document.getElementById('flexbox2').appendChild(img(image[mistake]));
+        if (mistake == 9) {
+        document.getElementById('win').innerHTML = 'Du hast verloren!';
+        document.getElementById('flexbox1').innerHTML = '';
+        }
 
     }
   }
+
+  function checkIfFilled () {
+    let dataFields = document.querySelectorAll('data');
+    let dataFieldsArray = Array.from(dataFields)
+    for (let field of dataFieldsArray) {
+      let content = field.innerHTML;      
+      if (content === '') {
+         return false; 
+      } 
+    } 
+    return true;               
+  }  
 
   function img(source, alt) {
     var x = document.createElement("IMG");
@@ -160,6 +191,7 @@ let flexbox1 = document.getElementsByClassName('flexbox1');
     x.setAttribute("alt", alt);
     return x;
   };
+
 </script>
 </body>
 </html>
