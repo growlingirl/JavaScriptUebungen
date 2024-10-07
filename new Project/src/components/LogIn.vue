@@ -13,7 +13,7 @@ const Dif = computed (() => {
 })
 
 const Versuch = computed(() => {
-    return Dif > 0 ? ('noch' + Dif + 'Versuche übrig.') : 'keine Versuche mehr.'; 
+    return Dif.value > 0 ? ('noch' + Dif + 'Versuche übrig.') : 'keine Versuche mehr.'; 
 })
 
 function increment() {
