@@ -26,6 +26,14 @@
     }
   })
 
+  watch ( () => state.count, (newValue, oldValue) => {
+    console.log(newValue, oldValue);
+  })
+
+  const todos = [
+    { desc: 'Programmieren', done: false},
+    { desc: 'Kochen', done: false},
+    { desc: 'Wischen', done: true}  ]
 </script>
 
 
@@ -46,6 +54,26 @@
 
   <h2>{{ comp }}</h2>
 
+  <hr/>
+
+  <div v-for= '(item, index) in todos' :key='item.desc'>
+    <p :class= '{open: !item.done, done: item.done}'>{{index + 1 }} : {{ item.desc }}</p>
+  </div>
+  
+
+
   </div>
 
 </template>
+
+<style>
+  .open {
+    background-color: darkred;
+    color: white;
+  }
+
+  .done {
+    background-color: darkgreen;
+    color: white;
+  }
+</style>

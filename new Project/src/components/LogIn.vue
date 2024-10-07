@@ -9,22 +9,19 @@ const titleId1 = ref('richtig')
 const titleId2 = ref('falsch')
 
 const Dif = computed (() => {
-    return 4 - count.value
+    return 3 - count.value
 })
 
-//const Try = computed (() => {
- //   return Dif - 1
-//})
 
 function increment() {
-    count.value++;
-
-    if (pw.value == pw0.value && Dif > 0) {
+    if (pw.value == pw0.value && Dif.value > 0) {
        right.value = !right.value; } 
+    
+    count.value++;
 }
 
 const Versuch = computed(() => {
-    return Dif.value > 1 ? ('noch ' + Dif.value + ' Versuche übrig.') : 'keine Versuche mehr.'; 
+    return Dif.value > 0 ? ('noch ' + Dif.value + ' Versuche übrig.') : 'keine Versuche mehr.'; 
 })
 
 
