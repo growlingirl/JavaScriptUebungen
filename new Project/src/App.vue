@@ -1,5 +1,11 @@
 <script setup>
-  defineProps(['Zustand'])
+
+import Login from './components/LogIn.vue'
+
+
+const changeIt = (data) => {
+    state.value = data;
+}
 </script>
 
 <template>
@@ -7,7 +13,7 @@
   
     <div>
 
-      <p>{{ Zustand }}</p>
+      <Login :name = 'state' @changeString="changeIt"/>
       <h2>Links</h2>  
             
       <ul>
@@ -21,6 +27,7 @@
 </template>
 
 <style scoped>
+
 a {
   padding: 10px;
 }
