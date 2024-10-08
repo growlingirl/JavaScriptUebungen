@@ -1,12 +1,29 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+  defineProps(['Zustand'])
 </script>
 
 <template>
-  <RouterView></RouterView>
+  <div>
+  
+    <div>
+
+      <p>{{ Zustand }}</p>
+      <h2>Links</h2>  
+            
+      <ul>
+        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/hello">HelloWorld</RouterLink>
+      </ul>
+      <RouterView></RouterView>
+
+    </div>
+</div>
 </template>
 
 <style scoped>
+a {
+  padding: 10px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

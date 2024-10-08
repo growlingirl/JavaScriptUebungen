@@ -1,5 +1,6 @@
 <script setup>
 import{ ref, computed} from 'vue';
+import App from '../App.vue'
 
 const pw = ref();
 const pw0 = ref(987654);
@@ -7,24 +8,27 @@ const count = ref(0);
 const right = ref(false);
 const titleId1 = ref('richtig')
 const titleId2 = ref('falsch')
+const Zustand = ref();
 
 const Dif = computed (() => {
     return 3 - count.value
 })
 
+right.value 
+    ? Zustand.value = 'you are logged in' 
+    : Zustand.value = 'you are NOT logged in';
 
 function increment() {
     if (pw.value == pw0.value && Dif.value > 0) {
        right.value = !right.value; } 
     
     count.value++;
+
 }
 
 const Versuch = computed(() => {
     return Dif.value > 0 ? ('noch ' + Dif.value + ' Versuche übrig.') : 'keine Versuche mehr.'; 
 })
-
-
 
 </script>
 
@@ -42,6 +46,9 @@ const Versuch = computed(() => {
 
     <h2 v-if='right' :id="titleId1">BERECHTIGT</h2>
     <h2 v-else :id="titleId2">Du bist nicht berechtigt.</h2>
+
+    <App v-if ='right'></App>
+    <App v-if ='!right'></App>
 
 </div>
 </template>
