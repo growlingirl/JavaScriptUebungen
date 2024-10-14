@@ -49,7 +49,9 @@ onMounted(() => {
 function increment() {
     
     if ((pw.value == pw0.value && Dif.value > 0)) {
-       right.value = true; }
+       right.value = true; 
+       
+    }
 
     if (right.value) {
          localStorage.setItem('right', right.value.toString());
@@ -88,6 +90,16 @@ function timeCount () {
         } 
 }
 
+function Logout() {
+    right.value = false;
+    clearInterval(T);
+    T = null;
+    count.value = 0;
+    stopTime.value = 0;
+    localStorage.setItem('right', right.value.toString()); 
+    localStorage.setItem('count', count.value.toString());
+}
+
 </script>
 
 <template>
@@ -95,12 +107,13 @@ function timeCount () {
 
 <form @submit.prevent>
     
-        <label >Login: 
-            <input type="password" id="pw" v-model="pw" @keydown.enter="increment"> 
-            <span v-if="logout == true">"Du wurdest ausgeloggt."</span>
-            <span v-if='right' :id="titleId1">eingeloggt</span>
-            <span v-else :id="titleId2"> Du hast {{ Versuch }}</span>
-            </label> 
+    <label >Login: 
+        <input type="password" id="pw" v-model="pw" @keydown.enter="increment"> 
+        <span v-if="logout == true">"Du wurdest ausgeloggt."</span>
+        <span v-if='right' :id="titleId1">eingeloggt</span>
+        <span v-else :id="titleId2"> Du hast {{ Versuch }}</span>
+        </label> <br>
+    <button v-if="timeChange > 0 && timeChange < time0" @click="Logout()">Ausloggen</button>  
 
 </form>  
 
@@ -124,5 +137,9 @@ function timeCount () {
         border-radius: 5px;
         float: right;
         background-color: rgb(221, 221, 221);
+    }
+
+    button {
+        float: right;
     }
 </style>

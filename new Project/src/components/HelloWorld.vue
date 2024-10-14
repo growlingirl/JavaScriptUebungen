@@ -76,4 +76,8 @@
     background-color: darkgreen;
     color: white;
   }
+
+  button {
+    position: static;
+  }
 </style>
