@@ -8,8 +8,7 @@ import Quiz from '../components/Quiz.vue'
 const routes = [
   { path: '/login', component: Login },
   { path: '/hello', component: HelloWorld },
-  { path: '/quiz', component: Quiz };
-  
+  { path: '/quiz', component: Quiz }
 ]
 
 const router = createRouter({
