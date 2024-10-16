@@ -19,6 +19,7 @@ const changeIt = (data) => {
       <ul>
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/hello">HelloWorld</RouterLink>
+        <RouterLink to="/quiz">Quiz</RouterLink>
       </ul>
       <RouterView></RouterView>
 

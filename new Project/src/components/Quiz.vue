@@ -1,18 +1,18 @@
 <script setup>
 import{  reactive,} from 'vue';
 
-    const QandA = reactive({
-    2016: 'In welchem Jahr wurde die Kiss gegründet?',
-    4: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?',
-    4: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?',
-    7: 'In wievielen Kantonen gibt es KISS Genossenschaften?'
-    })
+    const QandA = reactive([
+    {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, range: '1924 - 2024'},
+    {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, range: '0 - 10'},
+    {question: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?', answer: 4, range: '0 - 10'},
+    {question: 'In wievielen Kantonen gibt es KISS Genossenschaften?', answer: 7, range: '0 - 10'},
+    ])
 
 
 
 </script>
 <template>
-    <div>
+    <div class="float-left ...">
         <h3>Textverständnis zur KISS</h3>
         <h4>Text:</h4>
         <p>
@@ -33,10 +33,20 @@ import{  reactive,} from 'vue';
 
         <h4>Fragen</h4>
 
-        <ul>
-            <li v-for="(value) in QandA" class='bg-slate-50 marker:text-sky-400'>
-            {{ index }}. {{ value }} <br>
-            <input type="number" v-model="nb" @keydown.enter="check">
+        <ul>            
+            <li v-for="(value, index) in QandA" >
+            <table>
+                <tbody>
+            <tr class="bg-slate-200 block">
+                <td class='text-sky-600'> {{ index + 1 }}. </td>
+                <td> &nbsp  {{value.question}} </td>
+             </tr> 
+             <tr class="">
+                <td> &nbsp </td>
+                <td><input type="number" v-model="nb" @keydown.enter="check" :placeholder="value.range"></td>
+            </tr>
+        </tbody>
+        </table>
             </li>
         </ul>
 
