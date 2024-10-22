@@ -4,8 +4,12 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  // customizations for this project
   theme: {
-    extend: {},
+    extend: {
+      
+    },
   },
   plugins: [],
 }
+

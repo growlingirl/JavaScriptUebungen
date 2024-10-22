@@ -2,21 +2,27 @@
 import{  reactive,} from 'vue';
 
     const QandA = reactive([
-    {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, range: '1924 - 2024'},
-    {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, range: '0 - 10'},
-    {question: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?', answer: 4, range: '0 - 10'},
-    {question: 'In wievielen Kantonen gibt es KISS Genossenschaften?', answer: 7, range: '0 - 10'},
+    {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, rangeStart: 1924, rangeEnd: 2024},
+    {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, rangeStart: 0, rangeEnd: 10},
+    {question: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?', answer: 4, rangeStart: 0, rangeEnd: 10},
+    {question: 'In wievielen Kantonen gibt es KISS Genossenschaften?', answer: 7, rangeStart: 0, rangeEnd: 10},
     ])
 
 
 
 </script>
 <template>
-    <div class="float-left ...">
-        <h3>Textverständnis zur KISS</h3>
-        <h4>Text:</h4>
-        <p>
-        KISS - Begleitete Nachbarschaftshilfe
+    <div class="float-left pl-3">
+        <br>
+        <h3 class="text-3xl font-bold px-8 pt-8 font-serif">Textverständnis: KISS</h3>
+        <br>
+        <h4 class="font-bold underline text-lg pb-4 pl-4">Text:</h4>
+
+        <p class="first-line:uppercase first-line:tracking-widest
+            first-letter:text-7xl first-letter:font-bold first-letter:text-slate-900
+            first-letter:mr-3 
+            font-serif text-base">
+        KISS - Begleitete Nachbarschaftshilfe <br>
         Gute Nachbarn von Jung bis Alt sind Gold wert. Bei uns GEBEN und NEHMEN die bald 300 Mitglieder untereinander auf einfache 
         und unbürokratische Art Unterstützung: beim Einkaufen, Gesellschaft leisten, Spazieren gehen, 
         im Haushalt etwas zur Hand gehen und vielem mehr. 
@@ -31,22 +37,32 @@ import{  reactive,} from 'vue';
         Schwyz, Aargau, Glarus, St. Gallen, Zürich, Wallis und Basel-Landschaft. 
         </p> <br>
 
-        <h4>Fragen</h4>
+        <h4 class="font-bold underline text-lg pb-4 pl-4">Fragen:</h4>
 
         <ul>            
-            <li v-for="(value, index) in QandA" >
-            <table>
-                <tbody>
-            <tr class="bg-slate-200 block">
-                <td class='text-sky-600'> {{ index + 1 }}. </td>
-                <td> &nbsp  {{value.question}} </td>
-             </tr> 
-             <tr class="">
-                <td> &nbsp </td>
-                <td><input type="number" v-model="nb" @keydown.enter="check" :placeholder="value.range"></td>
-            </tr>
-        </tbody>
-        </table>
+            <li v-for="(element, index) in QandA" :key="index" 
+                class="font-serif text-base py-3">               
+            <div class="bg-slate-200 block">
+                <span class='text-sky-600'> {{ index + 1 }}. </span>
+                <span> &nbsp;  {{element.question}} </span>
+                
+            </div>  
+            <div>
+                <input class="w-20 ml-5 mr-10"
+                    type="number" 
+                    v-model="element.nb" 
+                    @keydown.enter="check" 
+                    :placeholder="' ' + element.rangeStart + ' - ' + element.rangeEnd" />
+                    
+
+                    <input class="mt-3"
+                    type="range" 
+                    :min="element.rangeStart" 
+                    :max="element.rangeEnd" 
+                    :value="50" 
+                    :class="'S' + index " 
+                    v-model="element.nb" /> 
+            </div>      
             </li>
         </ul>
 
