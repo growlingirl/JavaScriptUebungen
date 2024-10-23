@@ -63,7 +63,7 @@ import{  reactive,} from 'vue';
                     :min="element.rangeStart" 
                     :max="element.rangeEnd" 
                     :value="50" 
-                    :class="{'text-green-500 font-bold': Number(element.nb) === Number(element.answer)}" 
+                    :class="{'text-green-500 font-bold': Number(element.nb) == Number(element.answer)}" 
                     v-model.number="element.nb" /> 
             </div>    
             
