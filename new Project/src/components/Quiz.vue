@@ -1,6 +1,8 @@
 <script setup>
 import{  reactive,} from 'vue';
 
+
+
     const QandA = reactive([
     {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, rangeStart: 1924, rangeEnd: 2024},
     {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, rangeStart: 0, rangeEnd: 10},
@@ -50,19 +52,27 @@ import{  reactive,} from 'vue';
             <div>
                 <input class="w-20 ml-5 mr-10"
                     type="number" 
-                    v-model="element.nb" 
+                    v-model.number="element.nb" 
                     @keydown.enter="check" 
                     :placeholder="' ' + element.rangeStart + ' - ' + element.rangeEnd" />
                     
 
-                    <input class="mt-3"
+                    <input 
+                    class="mt-3"
                     type="range" 
                     :min="element.rangeStart" 
                     :max="element.rangeEnd" 
                     :value="50" 
-                    :class="'S' + index " 
-                    v-model="element.nb" /> 
-            </div>      
+                    :class="{'text-green-500 font-bold': Number(element.nb) === Number(element.answer)}" 
+                    v-model.number="element.nb" /> 
+            </div>    
+            
+            <!--Debugging-->
+            <div class="text-xs mt-1 ml-5">
+                <span>nb: {{ element.nb }} | answer: {{ element.answer }} </span>
+            </div>
+
+      
             </li>
         </ul>
 
