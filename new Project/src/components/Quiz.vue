@@ -1,15 +1,23 @@
 <script setup>
-import{  reactive,} from 'vue';
+import{  reactive, ref} from 'vue';
 
+const QandA = ref(null)
 
-
-    const QandA = reactive([
+async function fetchData() {
+   QandA.value = await fetch("http://localhost:3000/quiz");
+    QandA.value = await QandA.value.json();
+}
+   
+   /*= reactive([
     {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, rangeStart: 1924, rangeEnd: 2024},
     {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, rangeStart: 0, rangeEnd: 10},
     {question: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?', answer: 4, rangeStart: 0, rangeEnd: 10},
     {question: 'In wievielen Kantonen gibt es KISS Genossenschaften?', answer: 7, rangeStart: 0, rangeEnd: 10},
     ])
+*/
 
+await fetchData();
+console.log(QandA.value.data(0));
 
 
 </script>
@@ -53,7 +61,8 @@ import{  reactive,} from 'vue';
                 <input class="w-20 ml-5 mr-10"
                     type="number" 
                     v-model.number="element.nb" 
-                    @keydown.enter="check" 
+                    @keydown.enter="check"
+                    :class="{'text-green-500 font-bold': Number(element.nb) == Number(element.answer)}" 
                     :placeholder="' ' + element.rangeStart + ' - ' + element.rangeEnd" />
                     
 
@@ -63,14 +72,15 @@ import{  reactive,} from 'vue';
                     :min="element.rangeStart" 
                     :max="element.rangeEnd" 
                     :value="50" 
-                    :class="{'text-green-500 font-bold': Number(element.nb) == Number(element.answer)}" 
+                     
                     v-model.number="element.nb" /> 
             </div>    
             
-            <!--Debugging-->
+            <!--Debugging
             <div class="text-xs mt-1 ml-5">
                 <span>nb: {{ element.nb }} | answer: {{ element.answer }} </span>
             </div>
+            -->
 
       
             </li>

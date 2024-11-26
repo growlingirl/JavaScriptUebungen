@@ -133,7 +133,7 @@ function Logout() {
         position: fixed;
         right: 20px;
         top: 20px;
-        border: 1px black solid;
+        border: 1px white solid;
         border-radius: 5px;
         float: right;
         background-color: rgb(221, 221, 221);

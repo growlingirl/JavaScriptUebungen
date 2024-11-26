@@ -1,11 +1,15 @@
 <script setup>
 
 import Login from './components/LogIn.vue'
+import Nav from './components/Nav.vue'
 
 
 const changeIt = (data) => {
-    state.value = data;
-}
+    state.value = data;}
+
+const navi = (data) => {
+  state.value = data;}
+
 </script>
 
 <template>
@@ -13,8 +17,11 @@ const changeIt = (data) => {
   
     <div>
 
+      <Nav :name = 'state' @navigation="navi"/>
+
       <Login :name = 'state' @changeString="changeIt"/>
-      <h2>Links</h2>  
+      <h2>Links</h2> 
+
             
       <ul>
         <RouterLink to="/login">Login</RouterLink>
