@@ -16,6 +16,8 @@ function safeQandA() {
 
 }
 
+const { textarea, input } = useTextareaAutosize()
+
 </script>
 
 <template>
@@ -32,12 +34,20 @@ function safeQandA() {
         <br>
 
         <p>1. Geben Sie hier ihren Text fürs Textverständnis ein:</p> <br>
-	
-	    <textarea v-model="Text" placeholder="add multiple lines " class="resize-y width-screen border-1 border-grey-500"></textarea>
         
+            <textarea 
+            v-model="Text" 
+            placeholder="add multiple lines " 
+            class="resize-none  w-full border-1 border-grey-500 ">
+            </textarea>  
+        
+	    
+        <br>
         <button  onclick="textInput()">Text speichern</button>
-        <p v-if="textE=true">{{ Text }}</p>
-        <p v-if="textE=true">Das Textverständnis hat die Quiz-Nummer <span class="bold"></span></p> <br><br>
+        <br>
+
+        <p v-if="textE">{{ Text }}</p>
+        <p v-if="textE">Das Textverständnis hat die Quiz-Nummer <span class="bold"></span></p> <br><br>
 
         <p  >2. Geben Sie hier Ihre Frage ein:</p> <br>
 
