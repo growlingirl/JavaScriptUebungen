@@ -1,8 +1,8 @@
 <script setup>
 import{ onMounted, reactive, ref} from 'vue';
+import { useTextareaAutosize} from "@vueuse/core"
 
 const QandA = ref([]);
-const Text = ref('');
 
 const New = ref(false)
 const change = ref(false)
@@ -36,7 +36,8 @@ const { textarea, input } = useTextareaAutosize()
         <p>1. Geben Sie hier ihren Text fürs Textverständnis ein:</p> <br>
         
             <textarea 
-            v-model="Text" 
+            ref="textarea"
+            v-model="input" 
             placeholder="add multiple lines " 
             class="resize-none  w-full border-1 border-grey-500 ">
             </textarea>  
@@ -89,4 +90,14 @@ const { textarea, input } = useTextareaAutosize()
     </div>
 </template>
 
+<style scoped>
+textarea {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+}
+</style>
    
