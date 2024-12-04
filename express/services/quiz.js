@@ -4,16 +4,17 @@ const config = require('../config');
 
 async function getMultiple(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
+  const rows = await db.query( //Abfrage für Quizfragen
     `SELECT * FROM quiz.QandA 
     LIMIT ${offset},${config.listPerPage}`
   );
-  const texts = await db.query(
+  const texts = await db.query( //Abfrage für Texte
     `SELECT * FROM quiz.QuizText 
     LIMIT ${offset},${config.listPerPage}`
   );
-  const data_q = helper.emptyOrRows(rows);
-  const data_t =
+  const data_q = helper.emptyOrRows(rows); // kreiert ein Array mit Quizfragen
+  const data_t = helper.emptyOrRows(texts); // kreiert ein Array mit Texten
+  const data = {questions: data_q, text: data_t[0] }; //kreiert ein Objekt mit den Quizfragen und dem ersten Text
   const meta = {page};
 
   return {

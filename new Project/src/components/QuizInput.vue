@@ -19,14 +19,15 @@ function safeQandA() {
 </script>
 
 <template>
+    
     <div class="float-left pl-3">
-        
+        <br> <br> <br>
         <p>Möchten Sie ein neues Quiz erstellen oder ein bereits erstelltes anpassen?</p>
         <button @click="New=!New" >Neu erstellen</button> 
         <button @click="change=!change">Anpassen</button>
         
 <!--quiz erstellen-->  
-    <div  v-if="New=true">  
+    <div  v-if="New">  <!--v-if="New" ist das gleiche wie v-if="New == true"--> 
         <h3  class="text-3xl font-bold px-8 pt-8 font-serif">Neues Quiz kreieren</h3>
         <br>
 
@@ -67,7 +68,7 @@ function safeQandA() {
 
 <!--quiz bearbeiten-->
 
-     <div v-if="change=true">
+     <div v-if="change">
         <h3  class="text-3xl font-bold px-8 pt-8 font-serif">Vorhandenes Quiz anpassen</h3>
         <p >Wählen Sie welches Quiz Sie bearbeiten möchten</p>
 
