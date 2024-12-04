@@ -1,23 +1,22 @@
 <script setup>
-import{  reactive, ref} from 'vue';
+import{  onMounted, ref} from 'vue';
 
-const QandA = ref(null)
+const QandA = ref([])
 
 async function fetchData() {
-   QandA.value = await fetch("http://localhost:3000/quiz");
-    QandA.value = await QandA.value.json();
+  const fetcher = await fetch("http://localhost:3000/quiz");
+    return await fetcher.json();
 }
    
-   /*= reactive([
-    {question: 'In welchem Jahr wurde die Kiss gegründet?', answer: 2016, rangeStart: 1924, rangeEnd: 2024},
-    {question: 'Von wievielen Gründungsmitgliedern wurde die Genossenschaft auf die Beine gestellt?', answer: 4, rangeStart: 0, rangeEnd: 10},
-    {question: 'Wie viele Gemeinden des Kantons Zug haben eine KISS Genossenschaft?', answer: 4, rangeStart: 0, rangeEnd: 10},
-    {question: 'In wievielen Kantonen gibt es KISS Genossenschaften?', answer: 7, rangeStart: 0, rangeEnd: 10},
-    ])
-*/
+onMounted(async () => {
+    
+    const variable = await fetchData();
+    console.log(variable)
+    TextandQ.value = variable.data;
 
-await fetchData();
-console.log(QandA.value.data(0));
+})
+
+
 
 
 </script>
@@ -32,7 +31,7 @@ console.log(QandA.value.data(0));
             first-letter:text-7xl first-letter:font-bold first-letter:text-slate-900
             first-letter:mr-3 
             font-serif text-base">
-        KISS - Begleitete Nachbarschaftshilfe <br>
+        KISS Zug- Begleitete Nachbarschaftshilfe <br>
         Gute Nachbarn von Jung bis Alt sind Gold wert. Bei uns GEBEN und NEHMEN die bald 300 Mitglieder untereinander auf einfache 
         und unbürokratische Art Unterstützung: beim Einkaufen, Gesellschaft leisten, Spazieren gehen, 
         im Haushalt etwas zur Hand gehen und vielem mehr. 
@@ -63,14 +62,14 @@ console.log(QandA.value.data(0));
                     v-model.number="element.nb" 
                     @keydown.enter="check"
                     :class="{'text-green-500 font-bold': Number(element.nb) == Number(element.answer)}" 
-                    :placeholder="' ' + element.rangeStart + ' - ' + element.rangeEnd" />
+                    :placeholder="' ' + element.range_start + ' - ' + element.range_end" />
                     
 
                     <input 
                     class="mt-3"
                     type="range" 
-                    :min="element.rangeStart" 
-                    :max="element.rangeEnd" 
+                    :min="element.range_start" 
+                    :max="element.range_end" 
                     :value="50" 
                      
                     v-model.number="element.nb" /> 

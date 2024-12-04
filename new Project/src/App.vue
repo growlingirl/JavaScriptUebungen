@@ -27,6 +27,7 @@ const navi = (data) => {
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/hello">HelloWorld</RouterLink>
         <RouterLink to="/quiz">Quiz</RouterLink>
+        <RouterLink to="/quizinput">QuizInput</RouterLink>
       </ul>
       <RouterView></RouterView>
 
