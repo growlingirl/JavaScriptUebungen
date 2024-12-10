@@ -42,9 +42,27 @@ async function create(QandA){
   return {message};
 }
 
+async function createQuiz(quizText){
+  const result = await db.query(
+    `INSERT INTO quizText 
+    (title, quizT) 
+    VALUES 
+    ('${quizText.title}', '${quizText.quizT}'}})`
+  );
+
+  let message = 'Error in creating Question';
+
+  if (result.affectedRows) {
+    message = 'Quiz created successfully';
+  }
+
+  return {message};
+}
+
 module.exports = {
   getMultiple,
-  create
+  create,
+  createQuiz,
 }
 
 

@@ -16,7 +16,18 @@ router.get('/', async function(req, res, next) {
 /* POST QandA */
 router.post('/', async function(req, res, next) {
   try {
+    console.log(req.body)
     res.json(await quiz.create(req.body));
+  } catch (err) {
+    console.error(`Error while creating Quiz`, err.message);
+    next(err);
+  }
+});
+
+router.post('/postQuiz', async function(req, res, next) {
+  try {
+    console.log(req.body)
+    res.json(await quiz.createQuiz(req.body));
   } catch (err) {
     console.error(`Error while creating Quiz`, err.message);
     next(err);

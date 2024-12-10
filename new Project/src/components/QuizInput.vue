@@ -32,7 +32,7 @@ onMounted(async () => {
 
 //POST Method
 async function postData() {
-    const url = "http://localhost:3000/quiz";
+    const url = "http://localhost:3000/quiz/postQuiz";
     try {
      const response = await fetch(url, {
         method: "POST",
@@ -48,7 +48,6 @@ async function postData() {
         console.error(error.message);
     }
 }
-
 
 
 //functions
@@ -69,6 +68,13 @@ function alterQuiz() {
 function textInput() {
     textE.value=!textE.value;
     postData();
+}
+
+function newQuestion() {
+     question = '';
+    answer = '';
+    rangeStart = [];
+    rangeEnd = [];
 }
 
 function safeQandA() {
@@ -128,19 +134,15 @@ const { textarea, input } = useTextareaAutosize()
         <input   v-model="rangeStart" placeholder="Anfang Zahlenbereich" /> <br>
         <input   v-model="rangeEnd" placeholder="Ende Zahlenbereich" /> 
 
-        <button   onclick="safeQandA()" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
-            Frage speichern</button> <br> <br> <br>
-         
-
-     
+        <button   @click="safeQandA()" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
+            Frage speichern</button> <br> <br> <br>  
 
         <p>Frage: <span> {{ question }} </span></p>
         <p>Antwort: <span> {{ answer }} </span></p>
         <p>Anfang Zahlenbereich: <span> {{ rangeStart }} </span></p>
         <p>Ende Zahlenbereich: <span> {{ rangeEnd }} </span></p>
 
-
-        <button class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
+        <button @click="newQuestion()" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
             eine weitere Frage erstellen</button>
     </div>
 
@@ -160,12 +162,12 @@ const { textarea, input } = useTextareaAutosize()
                 <span>  {{element.title}} </span> <br> <br>
                 <span>  {{element.quizT}} </span>
             </div>  
-            <input   v-model="quizNumber" placeholder="Quiz Nummer" />
+            
             </li>
         </ul>
 
         <p >Wählen Sie welches Quiz Sie bearbeiten möchten</p>
-
+        <input   v-model="quizNumber" placeholder="Quiz Nummer" />
 
      </div>
         
