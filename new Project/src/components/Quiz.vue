@@ -31,19 +31,7 @@ onMounted(async () => {
             first-letter:text-7xl first-letter:font-bold first-letter:text-slate-900
             first-letter:mr-3 
             font-serif text-base">
-        KISS Zug- Begleitete Nachbarschaftshilfe <br>
-        Gute Nachbarn von Jung bis Alt sind Gold wert. Bei uns GEBEN und NEHMEN die bald 300 Mitglieder untereinander auf einfache 
-        und unbürokratische Art Unterstützung: beim Einkaufen, Gesellschaft leisten, Spazieren gehen, 
-        im Haushalt etwas zur Hand gehen und vielem mehr. 
-        Auch der Kontakt untereinander wird rege gepflegt. Die meisten unserer Mitglieder wohnen in der Stadt Zug. 
-        Wir haben aber auch Genossenschafter aus den anderen Zuger Gemeinden, die meisten aus Baar.
-        Die KISS Genossenschaft Zug wurde am 5. September 2016 gegründet. 
-        Die Gründung geht auf eine Initiative von Susanna Fassbind, Heidi Lehner, Ingrid Spiess und Edith Stocker zurück. 
-        Diese vier Frauen hatten zuvor bereits KISS Kanton Zug und den Verein KISS Schweiz (heute Fondation KISS) mit aufgebaut. 
-        Verschiedene Quartiervereine unterstützten die Gründung von KISS Zug. Im Kanton Zug gibt es heute vier KISS Genossenschaften. 
-        Neben der Stadt Zug sind dies Cham, Hünenberg und Risch. 
-        KISS Genossenschaften und Vereine gibt es ausserdem in den Kantonen 
-        Schwyz, Aargau, Glarus, St. Gallen, Zürich, Wallis und Basel-Landschaft. 
+        {{ quizT }}
         </p> <br>
 
         <h4 class="font-bold underline text-lg pb-4 pl-4">Fragen:</h4>

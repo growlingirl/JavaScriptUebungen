@@ -1,3 +1,4 @@
+//GET
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
@@ -23,6 +24,7 @@ async function getMultiple(page = 1){
   }
 }
 
+//POST
 async function create(QandA){
   const result = await db.query(
     `INSERT INTO quiz 
