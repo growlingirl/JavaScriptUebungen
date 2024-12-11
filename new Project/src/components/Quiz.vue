@@ -1,7 +1,8 @@
 <script setup>
 import{  onMounted, ref} from 'vue';
 
-const QandA = ref([])
+const QandA = ref([]);
+const TextandQ = ref();
 
 async function fetchData() {
   const fetcher = await fetch("http://localhost:3000/quiz");

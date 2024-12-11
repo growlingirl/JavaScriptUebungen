@@ -24,13 +24,13 @@ async function getMultiple(page = 1){
   }
 }
 
-//POST
+//POST 
 async function create(QandA){
   const result = await db.query(
     `INSERT INTO quiz 
     (question, answer, range_start, range_end, dependence) 
     VALUES 
-    ('${QandA.question}', '${QandA.answer}', ${QandA.range_start}, ${QandA.range_end}, ${QandA.dependence})`
+    (?, ?, ?, ?, ?)`, [QandA.question, QandA.answer, QandA.range_start, QandA.range_end, QandA.dependence]
   );
 
   let message = 'Error in creating Question';
@@ -47,8 +47,10 @@ async function createQuiz(quizText){
     `INSERT INTO quizText 
     (title, quiz_text) 
     VALUES 
-    ('?, ?')`, [quizText.title, quizText.quiz_text]
+    (?, ?)`, [quizText.title, quizText.quiz_text]
   );
+
+  const data = result.insertId;
 
   let message = 'Error in creating Question';
 
