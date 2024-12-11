@@ -16,6 +16,7 @@ const rangeStart = ref();
 const rangeEnd = ref();
 const quizNumber = ref();
 const TextandQ = ref();
+const TextID = ref();
 
 //GET Method
 async function fetchData() {
@@ -30,6 +31,18 @@ onMounted(async () => {
     TextandQ.value = variable.data;
 
 })
+
+async function fetchData() {
+  const fetchID = await fetch("http://localhost:3000/postQuiz");
+    return await fetchID.json();
+}
+   
+onMounted(async () => {
+    
+    const varID = await fetchData();
+    console.log(varID)
+    TextID.value = variable.data;
+
 
 //POST Method
 async function postData() {
