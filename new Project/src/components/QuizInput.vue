@@ -8,15 +8,22 @@ const Text = ref([]);
 const New = ref(false);
 const change = ref(false);
 const textE = ref(false);
+const QuestionE = ref(false);
 
 const textTitle = ref('');
 const question = ref('');
 const answer = ref('');
+const multiple_joice1 = ref('');
+const multiple_joice2 = ref('');
+const multiple_joice3 = ref('');
+const multiple_joice4 = ref('');
 const rangeStart = ref();
 const rangeEnd = ref();
+
 const quizNumber = ref();
 const TextandQ = ref();
 const TextID = ref();
+
 
 //GET Method
 async function fetchData() {
@@ -32,18 +39,6 @@ onMounted(async () => {
 
 })
 
-async function fetchData() {
-  const fetchID = await fetch("http://localhost:3000/postQuiz");
-    return await fetchID.json();
-}
-   
-onMounted(async () => {
-    
-    const varID = await fetchData();
-    console.log(varID)
-    TextID.value = variable.data;
-
-
 //POST Method
 async function postData() {
     const url = "http://localhost:3000/quiz/postQuiz";
@@ -57,13 +52,41 @@ async function postData() {
         throw new Error(`Response status: ${response.status}`); 
     }
 
-    const json = await response.json();
+    TextID.value = await response.json();
     console.log(json)
     } catch (error) {
         console.error(error.message);
     }
 }
 
+async function postQandA() {
+    const url = "http://localhost:3000/quiz";
+    try {
+     const response = await fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ 
+        question: question.value, 
+        answer: answer.value, 
+        multiple_joice1: multiple_joice1.value,
+        multiple_joice2: multiple_joice2.value,
+        multiple_joice3: multiple_joice3.value,
+        multiple_joice4: multiple_joice4.value,
+        range_start: rangeStart.value, 
+        range_end: rangeEnd.value,
+        dependence: TextID.value }),
+    }); 
+
+    if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`); 
+    }
+
+    const json = await response.json();
+    console.log(json)
+    } catch (error) {
+        console.error(error.message);
+    }
+}
 
 //functions
 function newText() {
@@ -93,6 +116,8 @@ function newQuestion() {
 }
 
 function safeQandA() {
+    QuestionE.value=!QuestionE.value;
+    postQandA();
 
 }
 //automatically resize Textinput field
@@ -116,44 +141,56 @@ const { textarea, input } = useTextareaAutosize()
         <h3  class="text-3xl font-bold px-8 mt-20 py-4 font-serif">
             Neues Quiz kreieren</h3>
         <br>
-
-        <p v-if="textE==false">1. Geben Sie hier Ihren Text fürs Textverständnis ein:</p> <br>
-        <textarea v-if="textE==false" 
+      <div v-if="textE==false">
+        <p>1. Geben Sie hier Ihren Text fürs Textverständnis ein:</p> <br>
+        <textarea 
             v-model="textTitle" 
             ref="textarea"
             placeholder="Geben Sie hier den Titel ein. " 
             class="my-8 resize-none  w-full border-1 border-grey-500 ">
             </textarea>  
         <!--textarea wird nach text speichern verborgen-->  
-            <textarea v-if="textE==false" 
+            <textarea  
             ref="textarea"
             v-model="input" 
             placeholder="Geben Sie hier den Text ein. " 
             class="my-8 resize-none  w-full border-1 border-grey-500 ">
             </textarea>  
-        
+      </div>    
+
         <br>
         <button  @click="textInput()" v-if="textE==false" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
             Text speichern</button>
         <br>
-
-        <p v-if="textE">{{ textTitle }}</p>
-        <p v-if="textE">{{ input }}</p>
-        <p v-if="textE" class="mt-6">
+      <div v-if="textE">
+        <p >{{ textTitle }}</p>
+        <p >{{ input }}</p>
+        <p  class="mt-6">
             Das Textverständnis hat die Quiz-Nummer <span class="bold"></span></p> <br><br>
-
+      </div>
+      <div v-if="QuestionE==false">
         <p  >2. Geben Sie hier eine Frage ein:</p> <br>
 
         <input   v-model="question" placeholder="Frage" /> <br>
-        <input   v-model="answer" placeholder="Antwort" /> <br>
+        <input   v-model="answer" placeholder="Antwort" /> <br> 
+        <p>Bei einer Textantwort:</p>
+        <input   v-model="multiple_joice1" placeholder="Möglichkeit 1 zu antworten" /> <br>
+        <input   v-model="multiple_joice2" placeholder="Möglichkeit 2 zu antworten" /> <br>
+        <input   v-model="multiple_joice3" placeholder="Möglichkeit 3 zu antworten" /> <br>
+        <input   v-model="multiple_joice4" placeholder="Möglichkeit 4 zu antworten" /> <br> 
+        <p>Bei einer Zahlenantwort:</p>
         <input   v-model="rangeStart" placeholder="Anfang Zahlenbereich" /> <br>
         <input   v-model="rangeEnd" placeholder="Ende Zahlenbereich" /> 
 
         <button   @click="safeQandA()" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
             Frage speichern</button> <br> <br> <br>  
-
+      </div>
         <p>Frage: <span> {{ question }} </span></p>
-        <p>Antwort: <span> {{ answer }} </span></p>
+        <p>Antwort: <span> {{ answer }} </span></p> <br>
+        <p>Möglichkeit 1 zu antworten: <span> {{ multiple_joice1 }} </span></p>
+        <p>Möglichkeit 2 zu antworten: <span> {{ multiple_joice2 }} </span></p>
+        <p>Möglichkeit 3 zu antworten: <span> {{ multiple_joice3 }} </span></p>
+        <p>Möglichkeit 4 zu antworten: <span> {{ multiple_joice4 }} </span></p> <br>
         <p>Anfang Zahlenbereich: <span> {{ rangeStart }} </span></p>
         <p>Ende Zahlenbereich: <span> {{ rangeEnd }} </span></p>
 

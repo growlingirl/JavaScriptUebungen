@@ -33,7 +33,11 @@ insert into QuizText (
 create table if not exists QandA (
     id integer auto_increment primary key,
     question text,
-    answer integer,
+    answer text,
+    multiple_joice1 text,
+    multiple_joice2 text,
+    multiple_joice3 text,
+    multiple_joice4 text,
     range_start integer,
     range_end integer,
     dependence integer,

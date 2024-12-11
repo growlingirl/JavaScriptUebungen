@@ -28,9 +28,12 @@ async function getMultiple(page = 1){
 async function create(QandA){
   const result = await db.query(
     `INSERT INTO quiz 
-    (question, answer, range_start, range_end, dependence) 
+    (question, answer,  multiple_joice1,  multiple_joice2,  multiple_joice3,  multiple_joice4, 
+    range_start, range_end, dependence) 
     VALUES 
-    (?, ?, ?, ?, ?)`, [QandA.question, QandA.answer, QandA.range_start, QandA.range_end, QandA.dependence]
+    (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [QandA.question, QandA.answer,  
+      QandA.multiple_joice1, QandA.multiple_joice2, QandA.multiple_joice3, QandA.multiple_joice4,  
+      QandA.range_start, QandA.range_end, QandA.dependence]
   );
 
   let message = 'Error in creating Question';
