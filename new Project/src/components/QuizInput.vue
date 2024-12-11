@@ -15,6 +15,7 @@ const answer = ref('');
 const rangeStart = ref();
 const rangeEnd = ref();
 const quizNumber = ref();
+const TextandQ = ref();
 
 //GET Method
 async function fetchData() {

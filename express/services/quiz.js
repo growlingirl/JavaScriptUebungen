@@ -47,7 +47,7 @@ async function createQuiz(quizText){
     `INSERT INTO quizText 
     (title, quiz_text) 
     VALUES 
-    ('${quizText.title}', '${quizText.quiz_text}')`
+    ('?, ?')`, [quizText.title, quizText.quiz_text]
   );
 
   let message = 'Error in creating Question';
