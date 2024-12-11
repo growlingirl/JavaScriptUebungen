@@ -45,9 +45,9 @@ async function create(QandA){
 async function createQuiz(quizText){
   const result = await db.query(
     `INSERT INTO quizText 
-    (title, quizT) 
+    (title, quiz_text) 
     VALUES 
-    ('${quizText.title}', '${quizText.quizT}'}})`
+    ('${quizText.title}', '${quizText.quiz_text}')`
   );
 
   let message = 'Error in creating Question';

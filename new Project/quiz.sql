@@ -6,7 +6,7 @@ use quiz;
 create table if not exists QuizText (
     title text,
     quiz_text text,
-    dependence_id integer primary key
+    dependence_id integer auto_increment primary key
 );
 
 insert into QuizText (

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const quiz = require('../services/quiz');
 
-/* GET quiz. */
+// GET quiz. 
 router.get('/', async function(req, res, next) {
   try {
     /* req= request, res = response */
@@ -13,7 +13,7 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-/* POST QandA */
+// POST QandA 
 router.post('/', async function(req, res, next) {
   try {
     console.log(req.body)
@@ -24,6 +24,7 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+//POST QuizText
 router.post('/postQuiz', async function(req, res, next) {
   try {
     console.log(req.body)
