@@ -74,7 +74,7 @@ async function postQandA() {
         multiple_joice4: multiple_joice4.value,
         range_start: rangeStart.value, 
         range_end: rangeEnd.value,
-        dependence: TextID.value }),
+        dependence: TextID.value.data }),
     }); 
 
     if (!response.ok) {
