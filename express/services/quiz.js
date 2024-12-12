@@ -61,7 +61,7 @@ async function createQuiz(quizText){
     message = 'Quiz created successfully';
   }
 
-  return {message};
+  return {message, data};
 }
 
 module.exports = {
