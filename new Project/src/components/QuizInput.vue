@@ -17,8 +17,8 @@ const multiple_joice1 = ref('');
 const multiple_joice2 = ref('');
 const multiple_joice3 = ref('');
 const multiple_joice4 = ref('');
-const rangeStart = ref();
-const rangeEnd = ref();
+const rangeStart = ref(null);
+const rangeEnd = ref(null);
 
 const quizNumber = ref();
 const TextandQ = ref();
@@ -175,17 +175,15 @@ const { textarea, input } = useTextareaAutosize()
         <input   v-model="answer" placeholder="Antwort" /> <br> 
 
 
-     
+       
         <p>Bei einer Textantwort:</p>
         <input   v-model="multiple_joice1" placeholder="Möglichkeit 1 zu antworten" /> <br>
         <input   v-model="multiple_joice2" placeholder="Möglichkeit 2 zu antworten" /> <br>
         <input   v-model="multiple_joice3" placeholder="Möglichkeit 3 zu antworten" /> <br>
         <input   v-model="multiple_joice4" placeholder="Möglichkeit 4 zu antworten" /> <br> 
-            
         <p>Bei einer Zahlenantwort:</p>
         <input   v-model="rangeStart" placeholder="Anfang Zahlenbereich" /> <br>
         <input   v-model="rangeEnd" placeholder="Ende Zahlenbereich" /> 
-       </div>
 
         <button   @click="safeQandA()" class="bg-green-400 hover hover:bg-green-500 duration-300 font-sm text-white rounded py-1.5 px-4">
             Frage speichern</button> <br> <br> <br>  
