@@ -19,7 +19,7 @@ router.post('/', async function(req, res, next) {
     console.log(req.body)
     res.json(await quiz.create(req.body));
   } catch (err) {
-    console.error(`Error while creating Quiz`, err.message);
+    console.error(`Error while creating Qestions`, err.message);
     next(err);
   }
 });

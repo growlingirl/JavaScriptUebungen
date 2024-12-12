@@ -27,7 +27,7 @@ async function getMultiple(page = 1){
 //POST 
 async function create(QandA){
   const result = await db.query(
-    `INSERT INTO quiz 
+    `INSERT INTO QandA 
     (question, answer,  multiple_joice1,  multiple_joice2,  multiple_joice3,  multiple_joice4, 
     range_start, range_end, dependence) 
     VALUES 
