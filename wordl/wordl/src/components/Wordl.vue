@@ -57,20 +57,29 @@ float: left;
 margin-left: 10px;
 }
 
+.field {
+  border: 2px solid rgb(103, 204, 165);
+  margin: 3px;
+  background-color: lightgray;
+  float: left;
+
+}
+
+.li {
+  list-style-type: none;
+
+}
 </style>
 
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-function start() {
-  <li v-for="n in 6">
+const New = ref(true);
 
-    
 
-  </li>
-}
+
 
 
 defineProps({
@@ -91,10 +100,18 @@ const count = ref(0)
 
     <div class="i1">
 
-      <button v-if="" @click="start()">Spiel starten</button> 
 
+      <button v-if="New==true" @click="start()">Spiel starten</button> 
 
+    <ul>
+      <li v-for="n in 6" :key="n">
+    <div class="field" v-for="m in 6" :key="m"> 
       
+    </div>
+
+
+  </li>
+    </ul>   
 
 
 

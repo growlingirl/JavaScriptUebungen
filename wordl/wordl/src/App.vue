@@ -30,4 +30,40 @@ import HelloWorld from './components/Wordl.vue'
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
+
+.dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        
+        z-index: 1;
+        border: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        
+    }
+
+    .dropbtn {
+        background-color: grey;
+        color: blue;
+        border: 2px solid black;
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    .black {
+        background-color: black;
+        color:blue;
+    }
+
+    .white {
+        background-color: white;
+        color: blue;
+    }
 </style>
