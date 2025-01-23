@@ -27,7 +27,7 @@ const TextID = ref();
 
 //GET Method
 async function fetchData() {
-  const fetcher = await fetch("http://localhost:3000/quiz");
+  const fetcher = await fetch("http://localhost:3000/quiz/QandA");
     return await fetcher.json();
 }
    
@@ -53,7 +53,7 @@ async function postData() {
     }
 
     TextID.value = await response.json();
-    console.log(json)
+    
     } catch (error) {
         console.error(error.message);
     }
@@ -109,10 +109,15 @@ function textInput() {
 }
 
 function newQuestion() {
-     question = '';
-    answer = '';
-    rangeStart = [];
-    rangeEnd = [];
+     question.value = '';
+    answer.value = '';
+    rangeStart.value = [];
+    rangeEnd.value = [];
+    multiple_joice1.value = '';
+    multiple_joice2.value = '';
+    multiple_joice3.value = '';
+    multiple_joice4.value = '';
+    QuestionE.value=!QuestionE.value;
 }
 
 function safeQandA() {
@@ -173,9 +178,7 @@ const { textarea, input } = useTextareaAutosize()
 
         <input   v-model="question" placeholder="Frage" /> <br>
         <input   v-model="answer" placeholder="Antwort" /> <br> 
-
-
-       
+      
         <p>Bei einer Textantwort:</p>
         <input   v-model="multiple_joice1" placeholder="Möglichkeit 1 zu antworten" /> <br>
         <input   v-model="multiple_joice2" placeholder="Möglichkeit 2 zu antworten" /> <br>
@@ -226,8 +229,6 @@ const { textarea, input } = useTextareaAutosize()
 
      </div>
         
-
-
     </div>
 </template>
 

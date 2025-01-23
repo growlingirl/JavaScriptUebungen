@@ -1,3 +1,10 @@
+<style scoped>
+
+
+
+</style>
+
+
 <script setup>
 import{ ref, computed, onMounted} from 'vue';
 
@@ -13,6 +20,15 @@ let links = [
 ]
 </script>
 <template>
+<div>
+    <!--Navigation mit Dropdown Menu wenn Bildschirm in Portrait-->
+    <div v-if="">
+
+
+    </div>
+
+
+    <!--Navigation auf linker Seite wenn Bildschirm in Landscape-->
    <div class="bg-gray-900 text-gray-100 py-3.5 px-6 shadow md:flex  items-center fixed  ">
     <div class="flex items-center">
         <span class="text-green-500 text-xl mr-1">
@@ -32,4 +48,5 @@ let links = [
         </ul>
 
    </div> 
+</div>
 </template>

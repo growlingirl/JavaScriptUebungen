@@ -7,6 +7,7 @@ async function getMultiple(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query( //Abfrage für Quizfragen
     `SELECT * FROM quiz.QandA 
+    WHERE Id = 
     LIMIT ${offset},${config.listPerPage}`
   );
   const texts = await db.query( //Abfrage für Texte
