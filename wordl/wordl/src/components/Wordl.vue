@@ -57,7 +57,7 @@ float: left;
 margin-left: 10px;
 }
 
-.field {
+.f {
   border: 2px solid rgb(103, 204, 165);
   margin: 3px;
   background-color: lightgray;
@@ -112,7 +112,30 @@ margin-left: 10px;
 import { ref } from 'vue';
 
 const New = ref(true);
+const fields = ref(['','','','','','']);
+const currentRow = ref(0);
+const refs = {};
 
+//Method to disable specific rows
+const isRowEnabled = (rowIndex) => {
+  // Enable only the first row (m = 1)
+  return rowIndex === currentRow.value;
+};
+
+
+// Method to jump to the next input field
+    const jumpToNext = (index) => {
+      // Check if the current input is full
+      if (fields.value[index].length === 1) {
+        // Get the next input field by index
+        const nextInput = document.querySelector(`[data-index="${index + 1}"]`);
+    if (nextInput) nextInput.focus();
+  } else if (fields.value[index].length === 0 && index > 0) {
+    // Focus on the previous input field if backspacing
+    const prevInput = document.querySelector(`[data-index="${index - 1}"]`);
+    if (prevInput) prevInput.focus();
+  }
+};
 
 defineProps({
   msg: String,
@@ -138,17 +161,20 @@ const count = ref(0)
     <div id="game">    
       <div class="gridContainer">
        
-            <div class="row" v-for="m in 6" :key="m" > 
-              <div class="field" v-for="(field, n) in fields" :key="n">
+            <div class="row" v-for="m in 6" :key="m" 
+              :ref="row + m"
+> 
+
+              <div class="f" v-for="(field, n) in fields" :key="n">
+
                 <input
                  type="text" 
                  maxlength="1" 
                  v-model="fields[n]"
                  class="inputField" 
-                 :id="'f'+m+n" 
                  @input="jumpToNext(n)"
-                 :ref="'field' + n"
-                 >
+                 :data-index="n"
+                 :disabled="!isRowEnabled(m)">
               </div>
             </div>  
 
