@@ -139,8 +139,16 @@ const count = ref(0)
       <div class="gridContainer">
        
             <div class="row" v-for="m in 6" :key="m" > 
-              <div class="field" v-for="n in 6" :key="n">
-                <input type="text" maxlength="1" class="inputField" :id="'f'+m+n">
+              <div class="field" v-for="(field, n) in fields" :key="n">
+                <input
+                 type="text" 
+                 maxlength="1" 
+                 v-model="fields[n]"
+                 class="inputField" 
+                 :id="'f'+m+n" 
+                 @input="jumpToNext(n)"
+                 :ref="'field' + n"
+                 >
               </div>
             </div>  
 
