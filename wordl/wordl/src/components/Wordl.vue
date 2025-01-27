@@ -61,13 +61,48 @@ margin-left: 10px;
   border: 2px solid rgb(103, 204, 165);
   margin: 3px;
   background-color: lightgray;
-  float: left;
+  
+  aspect-ratio: 1 / 1; /* Ensure each square has equal height and width */
+  width: 300%; /* Set width to take up the full available space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4em;
+  box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
+  }
+
+.row {
+  margin: 3px;
+  aspect-ratio: 6 / 1; /* Ensure each square has equal height and width */
+  width: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
 
 }
 
-.li {
-  list-style-type: none;
+#gridContainer {
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+  
+}
 
+.inputField {
+  width: 100%; 
+  height: 100%;
+  font-size: inherit;
+  border: none;
+  background-color: lightgrey;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+#game{
+  aspect-ratio: 1 / 1;
+  height: 80vh;
 }
 </style>
 
@@ -77,9 +112,6 @@ margin-left: 10px;
 import { ref } from 'vue';
 
 const New = ref(true);
-
-
-
 
 
 defineProps({
@@ -101,19 +133,20 @@ const count = ref(0)
     <div class="i1">
 
 
-      <button v-if="New==true" @click="start()">Spiel starten</button> 
+        <button v-if="New==true" @click="start()">Spiel neu starten</button> 
 
-    <ul>
-      <li v-for="n in 6" :key="n">
-    <div class="field" v-for="m in 6" :key="m"> 
-      
-    </div>
+    <div id="game">    
+      <div class="gridContainer">
+       
+            <div class="row" v-for="m in 6" :key="m" > 
+              <div class="field" v-for="n in 6" :key="n">
+                <input type="text" maxlength="1" class="inputField" :id="'f'+m+n">
+              </div>
+            </div>  
 
-
-  </li>
-    </ul>   
-
-
+      </div>
+    </div>   
+    
 
 
 
