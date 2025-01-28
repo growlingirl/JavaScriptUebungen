@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #game {
+      display: grid;
+      grid-template-rows: repeat(6, 1fr);
+      gap: 5px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .tile {
+      width: 45px;
+      height: 45px;
+      border: 2px solid #d1d5db;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-transform: uppercase;
+      background-color: #ffffff;
+      cursor: pointer;
+    }
+
+    .tile.focused {
+      border-color: #6aaa64;
+    }
+
+    .tile.correct {
+      background-color: #6aaa64;
+      color: white;
+    }
+
+    .tile.present {
+      background-color: #c9b458;
+      color: white;
+    }
+
+    .tile.absent {
+      background-color: #787c7e;
+      color: white;
+    }
+
+    #keyboard {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      justify-content: center;
+    }
+
+    .key {
+      padding: 10px;
+      border: none;
+      background-color: #d1d5db;
+      border-radius: 5px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .key.used {
+      background-color: #787c7e;
+      color: white;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="game"></div>
+    <div id="keyboard"></div>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const WORDS = ["apple", "table", "chair", "grape", "plane", "beach"];
+    const solution = WORDS[Math.floor(Math.random() * WORDS.length)];
+    let currentRow = 0;
+    let currentTile = 0;
+    let focusedTile = null;
+    let gameOver = false;
+
+    const game = document.getElementById("game");
+    const keyboard = document.getElementById("keyboard");
+    const message = document.getElementById("message");
+
+    function createGameBoard() {
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("div");
+        row.className = "row";
+        for (let j = 0; j < 5; j++) {
+          const tile = document.createElement("div");
+          tile.className = "tile";
+          tile.addEventListener("click", () => focusTile(tile));
+          row.appendChild(tile);
+        }
+        game.appendChild(row);
+      }
+      focusTile(game.children[0].children[0]);
+    }
+
+    function createKeyboard() {
+      const keys = "qwertyuiopasdfghjklzxcvbnm".split("");
+      keys.push("Enter", "Backspace");
+
+      keys.forEach((key) => {
+        const button = document.createElement("button");
+        button.textContent = key;
+        button.className = "key";
+        button.addEventListener("click", () => handleKey(key));
+        keyboard.appendChild(button);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (!gameOver) {
+          const key = e.key;
+          if (/^[a-zA-Z]$/.test(key)) {
+            handleKey(key.toLowerCase());
+          } else if (key === "Enter" || key === "Backspace") {
+            handleKey(key);
+          }
+        }
+      });
+    }
+
+    function focusTile(tile) {
+      if (focusedTile) {
+        focusedTile.classList.remove("focused");
+      }
+      focusedTile = tile;
+      focusedTile.classList.add("focused");
+
+      const rowIndex = Array.from(game.children).indexOf(focusedTile.parentElement);
+      const tileIndex = Array.from(focusedTile.parentElement.children).indexOf(focusedTile);
+      currentRow = rowIndex;
+      currentTile = tileIndex;
+    }
+
+    function handleKey(key) {
+      if (gameOver) return;
+
+      if (key === "Backspace") {
+        if (focusedTile && (focusedTile.textContent || currentTile > 0)) {
+          if (!focusedTile.textContent && currentTile > 0) {
+            moveFocus(-1);
+          }
+          focusedTile.textContent = "";
+        }
+      } else if (key === "Enter") {
+        const row = game.children[currentRow];
+        const isRowComplete = Array.from(row.children).every(tile => tile.textContent.trim() !== "");
+
+        if (isRowComplete) {
+          checkRow();
+          if (!gameOver && currentRow < 6) {
+            focusTile(game.children[currentRow]?.children[0]);
+          }
+        } else {
+          showMessage("Not enough letters");
+        }
+      } else if (/[a-z]/.test(key) && key.length === 1) {
+        if (focusedTile) {
+          focusedTile.textContent = key;
+          moveFocus(1);
+        }
+      }
+    }
+
+    function moveFocus(direction) {
+      const nextTileIndex = currentTile + direction;
+      if (nextTileIndex >= 0 && nextTileIndex < 5) {
+        focusTile(game.children[currentRow].children[nextTileIndex]);
+      }
+    }
+
+    function checkRow() {
+      const row = game.children[currentRow];
+      const guess = Array.from(row.children).map(tile => tile.textContent).join("");
+
+      if (guess === solution) {
+        showMessage("You win!");
+        markRow(row, "correct");
+        gameOver = true;
+        return;
+      }
+
+      if (currentRow === 5) {
+        showMessage(`Game Over! The word was: ${solution}`);
+        gameOver = true;
+        return;
+      }
+
+      const solutionArray = solution.split("");
+
+      Array.from(row.children).forEach((tile, index) => {
+        const letter = tile.textContent;
+        if (letter === solutionArray[index]) {
+          tile.classList.add("correct");
+          solutionArray[index] = null;
+        }
+      });
+
+      Array.from(row.children).forEach((tile, index) => {
+        const letter = tile.textContent;
+        if (solutionArray.includes(letter) && !tile.classList.contains("correct")) {
+          tile.classList.add("present");
+          solutionArray[solutionArray.indexOf(letter)] = null;
+        } else if (!tile.classList.contains("correct")) {
+          tile.classList.add("absent");
+        }
+      });
+
+      currentRow++;
+      currentTile = 0;
+    }
+
+    function markRow(row, className) {
+      Array.from(row.children).forEach(tile => tile.classList.add(className));
+    }
+
+    function showMessage(text) {
+      message.textContent = text;
+    }
+
+    createGameBoard();
+    createKeyboard();
+  </script>
+</body>
+</html>

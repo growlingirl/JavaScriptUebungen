@@ -99,22 +99,29 @@ margin-left: 10px;
   text-align: center;
 }
 
-
 #game{
   aspect-ratio: 1 / 1;
   height: 80vh;
 }
 </style>
 
-
-
 <script setup>
 import { ref } from 'vue';
 
-const New = ref(true);
-const fields = ref(['','','','','','']);
+const fields = ref(Array.from({ length: 6 }, () => ['', '', '', '', '', ''])); // Create a 6x6 grid
 const currentRow = ref(0);
-const refs = {};
+
+const words = ['Aargau', 'Bienen', 'Chance', 'Dramen', 'Falten', 'Griffe', 'Haufen', 'Inseln', 'Jungen', 'Koffer', 'Lachen', 'Mutter', 'Nehmen', 'Online', 'Pinsel', 'Quoten', 'Opiate', 'Stange', 'Tasten', 'Unikat', 'Vokale', 'Warten', 'Zebras' ];
+
+//choose random word
+const random = Math.floor(Math.random()*words.length);
+const  word = words[random];
+//split word in individual letters
+const wordLetter = word.toUpperCase().split('');
+   
+console.log(word);
+    console.log(wordLetter);
+
 
 //Method to disable specific rows
 const isRowEnabled = (rowIndex) => {
@@ -123,25 +130,43 @@ const isRowEnabled = (rowIndex) => {
 };
 
 
-// Method to jump to the next input field
-    const jumpToNext = (index) => {
+// Method to jump to the next input or previous field
+    const jumpToNext = (rowIndex, colIndex) => {
       // Check if the current input is full
-      if (fields.value[index].length === 1) {
-        // Get the next input field by index
-        const nextInput = document.querySelector(`[data-index="${index + 1}"]`);
-    if (nextInput) nextInput.focus();
-  } else if (fields.value[index].length === 0 && index > 0) {
-    // Focus on the previous input field if backspacing
-    const prevInput = document.querySelector(`[data-index="${index - 1}"]`);
+      const value = fields.value[rowIndex][colIndex];
+      if (value.length === 1) {
+         // Move focus to the next input field if it exists
+        const nextInput = document.querySelector(
+          `[data-row="${rowIndex}"][data-col="${colIndex + 1}"]`);
+      if (nextInput) nextInput.focus();
+      }
+    };
+
+// Function to handle Backspace for returning to the previous input
+  const handleBackspace = (rowIndex, colIndex) => {
+    if (fields.value[rowIndex][colIndex] === '' && colIndex > 0) {
+    const prevInput = document.querySelector(
+      `[data-row="${rowIndex}"][data-col="${colIndex - 1}"]`
+    );
     if (prevInput) prevInput.focus();
   }
 };
 
-defineProps({
-  msg: String,
-})
 
-const count = ref(0)
+    //Function to handle Enter key
+    const handleEnter = (rowIndex) => {
+  if (rowIndex === fields.value.length - 1) return; // Prevent enabling rows beyond the last
+  // Move to the next row
+  currentRow.value = rowIndex + 1;
+
+  // Focus on the first field of the next row
+  const firstInputNextRow = document.querySelector(
+    `[data-row="${rowIndex + 1}"][data-col="0"]`
+  );
+  if (firstInputNextRow) firstInputNextRow.focus();
+};
+
+
 </script>
 
 
@@ -156,79 +181,32 @@ const count = ref(0)
     <div class="i1">
 
 
-        <button v-if="New==true" @click="start()">Spiel neu starten</button> 
-
+       
     <div id="game">    
       <div class="gridContainer">
        
-            <div class="row" v-for="m in 6" :key="m" 
-              :ref="row + m"
-> 
+            <div class="row" v-for="(row, rowIndex) in fields" :key="rowIndex">
 
-              <div class="f" v-for="(field, n) in fields" :key="n">
+              <div class="f" v-for="(field, colIndex) in row" :key="colIndex">
 
                 <input
                  type="text" 
                  maxlength="1" 
-                 v-model="fields[n]"
+                 v-model="fields[rowIndex][colIndex]"
                  class="inputField" 
-                 @input="jumpToNext(n)"
-                 :data-index="n"
-                 :disabled="!isRowEnabled(m)">
+                 @input="jumpToNext(rowIndex, colIndex)"
+                 @keydown.backspace="handleBackspace(rowIndex, colIndex)"
+                 @keydown.enter="handleEnter(rowIndex)"
+                 :data-row="rowIndex"
+                 :data-col="colIndex"
+                 :disabled="!isRowEnabled(rowIndex)"
+                 >
               </div>
             </div>  
 
       </div>
     </div>   
-    
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-  <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
-  </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a
-      href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support"
-      target="_blank"
-      >Vue Docs Scaling up Guide</a
-    >.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
-  </div>
-    
+    </div>   
   </div>
 </body>
 </template>
