@@ -103,6 +103,16 @@ margin-left: 10px;
   aspect-ratio: 1 / 1;
   height: 80vh;
 }
+
+.button {
+  border: black 1pt solid;
+  margin: 3pt;
+  padding: 3pt;
+}
+
+button:hover {
+  background-color: lightblue;
+}
 </style>
 
 <script setup>
@@ -112,6 +122,8 @@ const fields = ref(Array.from({ length: 6 }, () => ['', '', '', '', '', ''])); /
 const currentRow = ref(0);
 
 const words = ['Aargau', 'Bienen', 'Chance', 'Dramen', 'Falten', 'Griffe', 'Haufen', 'Inseln', 'Jungen', 'Koffer', 'Lachen', 'Mutter', 'Nehmen', 'Online', 'Pinsel', 'Quoten', 'Opiate', 'Stange', 'Tasten', 'Unikat', 'Vokale', 'Warten', 'Zebras' ];
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
 
 //choose random word
 const random = Math.floor(Math.random()*words.length);
@@ -120,8 +132,7 @@ const  word = words[random];
 const wordLetter = word.toUpperCase().split('');
    
 console.log(word);
-    console.log(wordLetter);
-
+console.log(wordLetter);
 
 //Method to disable specific rows
 const isRowEnabled = (rowIndex) => {
@@ -188,23 +199,33 @@ const isRowEnabled = (rowIndex) => {
             <div class="row" v-for="(row, rowIndex) in fields" :key="rowIndex">
 
               <div class="f" v-for="(field, colIndex) in row" :key="colIndex">
-
-                <input
-                 type="text" 
-                 maxlength="1" 
-                 v-model="fields[rowIndex][colIndex]"
-                 class="inputField" 
-                 @input="jumpToNext(rowIndex, colIndex)"
-                 @keydown.backspace="handleBackspace(rowIndex, colIndex)"
-                 @keydown.enter="handleEnter(rowIndex)"
-                 :data-row="rowIndex"
-                 :data-col="colIndex"
-                 :disabled="!isRowEnabled(rowIndex)"
-                 >
+          <input
+            type="text"
+            maxlength="1"
+            v-model="fields[rowIndex][colIndex]"
+            class="inputField"
+            @input="jumpToNext(rowIndex, colIndex)"
+            @keydown.backspace="handleBackspace(rowIndex, colIndex)"
+            @keydown.enter="handleEnter(rowIndex)"
+            :data-row="rowIndex"
+            :data-col="colIndex"
+            :disabled="!isRowEnabled(rowIndex)"
+            
+          />
               </div>
             </div>  
 
       </div>
+
+      <div v-for="letter in letters" :key="letter">
+        <button
+        type="button"  
+        class="button"  
+        @click="type(letter)"          
+        >{{letter}}</button>
+      </div>
+
+
     </div>   
     </div>   
   </div>
