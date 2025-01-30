@@ -1,5 +1,5 @@
 <style scoped>
-/*@import './assets/style.css';*/
+
 
 @media screen and (orientation: landscape) {
 .grid-site {
@@ -97,6 +97,7 @@ margin-left: 10px;
   background-color: lightgrey;
   text-transform: uppercase;
   text-align: center;
+  color: black;
 }
 
 #game{
@@ -117,6 +118,11 @@ button:hover {
 
 <script setup>
 import { nextTick, ref, onMounted } from 'vue';
+//responsives Design
+//Message gewonnen grösser
+//Message innerhalb von viewing window
+//Navbar einfügen
+//
 
 const gameOver = ref(false);
 const message = ref('');
@@ -158,9 +164,10 @@ console.log(guess)
  
   if (!words.includes(guess)) {
     message.value = "Falsches Wort!";
-    if(currentRow.value==6) {
+    if(currentRow.value==5) {
       gameOver.value = true;
     message.value = `❌ Game over! Das richtige Wort ist ${solution.value}`
+    
     }
     return;
   }
@@ -232,6 +239,9 @@ const correctLetter = solution.value[colIndex].toUpperCase();
   return 'gray'; //wrong
 };
 
+function reload() {
+  window.location.reload()
+}
 </script>
 
 
@@ -241,7 +251,10 @@ const correctLetter = solution.value[colIndex].toUpperCase();
 
     <div class="grid-head">
     <h1>Wordle</h1>
-
+      <p>Finde das richtige Wort.<br>
+       <span style="color: green;">Grüne Buchstaben</span>  befinden sich am richtigen Ort,<br>
+       <span style="color: orange;">orange Buchstaben</span> kommen im Wort vor, sind aber nicht am richtigen Platz und <br>
+       <span style="color: grey;"> dunkelgraue Buchstaben</span> kommen nicht im Wort vor. </p>
     <p v-if="message">{{ message }}</p>
     </div>
 
@@ -273,15 +286,15 @@ const correctLetter = solution.value[colIndex].toUpperCase();
 
       </div>
 
-      <div v-for="letter in letters" :key="letter">
+      <!--<div v-for="letter in letters" :key="letter">
         <button
         type="button"  
         class="button"  
                  
         >{{letter}}</button>
-      </div>
+      </div>-->
 
-      <button v-if="gameOver" @click="window.location.reload()">Restart</button>
+      <button v-if="gameOver" @click="reload()">Restart</button>
 
     </div>   
     </div>   
