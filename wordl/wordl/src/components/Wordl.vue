@@ -116,7 +116,7 @@ button:hover {
 </style>
 
 <script setup>
-import { ref } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
 
 const fields = ref(Array.from({ length: 6 }, () => ['', '', '', '', '', ''])); // Create a 6x6 grid
 const currentRow = ref(0);
@@ -125,14 +125,23 @@ const words = ['Aargau', 'Bienen', 'Chance', 'Dramen', 'Falten', 'Griffe', 'Hauf
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 
+
 //choose random word
 const random = Math.floor(Math.random()*words.length);
 const  word = words[random];
-//split word in individual letters
-const wordLetter = word.toUpperCase().split('');
+
+const solution = ref(words[Math.floor(Math.random() * wordslength)]);
    
 console.log(word);
 console.log(wordLetter);
+
+
+
+// after loading page change focus to first input field 
+onMounted(()=>{
+  const firstInput = document.querySelector(`[data-row="0"][data-col="0"]`);
+  if (firstInput) firstInput.focus();
+})
 
 //Method to disable specific rows
 const isRowEnabled = (rowIndex) => {
@@ -153,7 +162,7 @@ const isRowEnabled = (rowIndex) => {
       }
     };
 
-// Function to handle Backspace for returning to the previous input
+// Backspace for returning to the previous input
   const handleBackspace = (rowIndex, colIndex) => {
     if (fields.value[rowIndex][colIndex] === '' && colIndex > 0) {
     const prevInput = document.querySelector(
@@ -164,12 +173,16 @@ const isRowEnabled = (rowIndex) => {
 };
 
 
-    //Function to handle Enter key
-    const handleEnter = (rowIndex) => {
-  if (rowIndex === fields.value.length - 1) return; // Prevent enabling rows beyond the last
+    // Enter key
+    const handleEnter = async (rowIndex) => {
+    if (fields.value[rowIndex].some(field=>field==='')) return;
+  if (rowIndex === fields.value.length - 1) {
+    currentRow.value=null;
+    return;
+  }; // Prevent enabling rows beyond the last
   // Move to the next row
   currentRow.value = rowIndex + 1;
-
+  await nextTick()
   // Focus on the first field of the next row
   const firstInputNextRow = document.querySelector(
     `[data-row="${rowIndex + 1}"][data-col="0"]`
@@ -177,6 +190,16 @@ const isRowEnabled = (rowIndex) => {
   if (firstInputNextRow) firstInputNextRow.focus();
 };
 
+const getLetterColor = (rowIndex,colIndex) => {
+  if(rowIndex >= currentRow.value) return 'lightgrey';//if the current row (rowIndex) is equal to or greater than currentRow.value (active row) cells stay light grey.
+
+const letterinput = rows.value[rowIndex][colIndex].toUpperCase();  
+const correctLetter = solution.value[colIndex];
+
+  if (letterinput === correctLetter) return 'green'; //correct
+  if (solution.value.includes(letterinput)) return 'orange'; //wrong place
+  return 'gray'; //wrong
+};
 
 </script>
 
@@ -210,7 +233,7 @@ const isRowEnabled = (rowIndex) => {
             :data-row="rowIndex"
             :data-col="colIndex"
             :disabled="!isRowEnabled(rowIndex)"
-            
+            :style="{ backgroundColor: getLetterColor(rowIndex, colIndex) }"
           />
               </div>
             </div>  
@@ -221,7 +244,7 @@ const isRowEnabled = (rowIndex) => {
         <button
         type="button"  
         class="button"  
-        @click="type(letter)"          
+                 
         >{{letter}}</button>
       </div>
 
