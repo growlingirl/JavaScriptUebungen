@@ -118,24 +118,21 @@ button:hover {
 <script setup>
 import { nextTick, ref, onMounted } from 'vue';
 
+const gameOver = ref(false);
+const message = ref('');
+
 const fields = ref(Array.from({ length: 6 }, () => ['', '', '', '', '', ''])); // Create a 6x6 grid
 const currentRow = ref(0);
 
-const words = ['Aargau', 'Bienen', 'Chance', 'Dramen', 'Falten', 'Griffe', 'Haufen', 'Inseln', 'Jungen', 'Koffer', 'Lachen', 'Mutter', 'Nehmen', 'Online', 'Pinsel', 'Quoten', 'Opiate', 'Stange', 'Tasten', 'Unikat', 'Vokale', 'Warten', 'Zebras' ];
+const words = ['AARGAU', 'BIENEN', 'CHANCE', 'DRAMEN', 'FALTEN', 'GRIFFE', 'HAUFEN', 'INSELN', 'JUNGEN', 'KOFFER', 'LACHEN', 'MUTTER', 'NEHMEN', 'ONLINE', 'PINSEL', 'QUOTEN', 'OPIATE', 'STANGE', 'TASTEN', 'UNIKAT', 'VOKALE', 'WARTEN', 'ZEBRAS' ];
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 
 
 //choose random word
-const random = Math.floor(Math.random()*words.length);
-const  word = words[random];
-
-const solution = ref(words[Math.floor(Math.random() * wordslength)]);
+const solution = ref(words[Math.floor(Math.random() * words.length)]);
    
-console.log(word);
-console.log(wordLetter);
-
-
+console.log(solution);
 
 // after loading page change focus to first input field 
 onMounted(()=>{
@@ -147,6 +144,35 @@ onMounted(()=>{
 const isRowEnabled = (rowIndex) => {
   // Enable only the first row (m = 1)
   return rowIndex === currentRow.value;
+};
+
+
+// Check guess and give feedback
+const checkGuess = () => {
+  if (gameOver.value) return;//stop function if game is already over
+  
+  
+  //compare
+  const guess = fields.value[currentRow.value].join('').toUpperCase();
+console.log(guess)
+ 
+  if (!words.includes(guess)) {
+    message.value = "Falsches Wort!";
+    if(currentRow.value==6) {
+      gameOver.value = true;
+    message.value = `❌ Game over! Das richtige Wort ist ${solution.value}`
+    }
+    return;
+  }
+
+  // Check win condition
+  if (guess.toUpperCase() === solution.value.toUpperCase()) {
+    gameOver.value = true;
+    message.value = "Gewonnen!";
+    return;
+  }
+
+  
 };
 
 
@@ -173,31 +199,36 @@ const isRowEnabled = (rowIndex) => {
 };
 
 
-    // Enter key
+    //Enter key
     const handleEnter = async (rowIndex) => {
+
     if (fields.value[rowIndex].some(field=>field==='')) return;
+
+      checkGuess();   
+
   if (rowIndex === fields.value.length - 1) {
     currentRow.value=null;
     return;
-  }; // Prevent enabling rows beyond the last
+  }; 
+
   // Move to the next row
   currentRow.value = rowIndex + 1;
   await nextTick()
+
   // Focus on the first field of the next row
   const firstInputNextRow = document.querySelector(
-    `[data-row="${rowIndex + 1}"][data-col="0"]`
-  );
+    `[data-row="${rowIndex + 1}"][data-col="0"]`);
   if (firstInputNextRow) firstInputNextRow.focus();
 };
 
 const getLetterColor = (rowIndex,colIndex) => {
   if(rowIndex >= currentRow.value) return 'lightgrey';//if the current row (rowIndex) is equal to or greater than currentRow.value (active row) cells stay light grey.
 
-const letterinput = rows.value[rowIndex][colIndex].toUpperCase();  
-const correctLetter = solution.value[colIndex];
+const letterinput = fields.value[rowIndex][colIndex].toUpperCase();  
+const correctLetter = solution.value[colIndex].toUpperCase();
 
-  if (letterinput === correctLetter) return 'green'; //correct
-  if (solution.value.includes(letterinput)) return 'orange'; //wrong place
+  if (letterinput === correctLetter.toUpperCase()) return 'green'; //correct
+  if (solution.value.toUpperCase().includes(letterinput)) return 'orange'; //wrong place
   return 'gray'; //wrong
 };
 
@@ -210,6 +241,8 @@ const correctLetter = solution.value[colIndex];
 
     <div class="grid-head">
     <h1>Wordle</h1>
+
+    <p v-if="message">{{ message }}</p>
     </div>
 
     <div class="i1">
@@ -229,7 +262,7 @@ const correctLetter = solution.value[colIndex];
             class="inputField"
             @input="jumpToNext(rowIndex, colIndex)"
             @keydown.backspace="handleBackspace(rowIndex, colIndex)"
-            @keydown.enter="handleEnter(rowIndex)"
+            @keydown.enter="handleEnter(rowIndex)" 
             :data-row="rowIndex"
             :data-col="colIndex"
             :disabled="!isRowEnabled(rowIndex)"
@@ -248,6 +281,7 @@ const correctLetter = solution.value[colIndex];
         >{{letter}}</button>
       </div>
 
+      <button v-if="gameOver" @click="window.location.reload()">Restart</button>
 
     </div>   
     </div>   
